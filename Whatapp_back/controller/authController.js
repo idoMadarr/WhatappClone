@@ -1,6 +1,8 @@
 const UserModule = require('../modules/UserModule');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const generateCodeVerification = require('../utils/codeVerification');
+const transporter = require('../services/nodemailer');
 const bodyCheck = require('../utils/bodyCheck');
 const Message = require('../modules/Message');
 
@@ -52,5 +54,28 @@ exports.signIn = async (req, res, _next) => {
   const identifier = { id: userExist._id };
   jwt.sign(identifier, process.env.SECERT, (_error, token) => {
     res.status(200).json({ token, username: userExist.username });
+  });
+};
+
+exports.verifyAccount = async (req, res, next) => {
+  const { userMail } = req.body;
+  const secretPass = generateCodeVerification();
+
+  const mailContent = {
+    from: process.env.SENDER_NODEMAILER,
+    to: userMail,
+    subject: 'Verify your account',
+    text: 'That was easy!',
+    html: `<b>Hello Friend! </b><br> Your secret code is ${secretPass}<br/>`,
+  };
+
+  transporter.sendMail(mailContent, (err, _info) => {
+    if (err) return next();
+    res
+      .status(200)
+      .json({
+        message: `Please check your mailbox for verifying your account `,
+        pass: secretPass,
+      });
   });
 };

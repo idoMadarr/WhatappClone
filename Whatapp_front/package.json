@@ -22,6 +22,7 @@
     "react": "17.0.2",
     "react-native": "0.68.2",
     "react-native-bouncy-checkbox": "^3.0.2",
+    "react-native-contacts": "^7.0.5",
     "react-native-gesture-handler": "^2.5.0",
     "react-native-modalize": "^2.1.1",
     "react-native-pager-view": "^5.4.25",

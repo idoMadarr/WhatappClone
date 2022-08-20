@@ -1,6 +1,10 @@
 const express = require('express');
 const { body } = require('express-validator');
-const { signIn, signUp } = require('../controller/authController');
+const {
+  signIn,
+  signUp,
+  verifyAccount,
+} = require('../controller/authController');
 
 const route = express.Router();
 
@@ -22,5 +26,8 @@ route.post(
   ],
   signUp
 );
+
+// Url: http://localhost:5000/auth/verification
+route.post('/verification', verifyAccount);
 
 module.exports = route;

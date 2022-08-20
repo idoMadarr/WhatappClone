@@ -1,8 +1,14 @@
 import React from 'react';
-import {SafeAreaView} from 'react-native';
+import {Provider} from 'react-redux';
+import AppNavigation from './navigation/AppNavigation';
+import store from './redux/store';
 
 const App = () => {
-  return <SafeAreaView></SafeAreaView>;
+  return (
+    <Provider store={store}>
+      <AppNavigation />
+    </Provider>
+  );
 };
 
 export default App;
