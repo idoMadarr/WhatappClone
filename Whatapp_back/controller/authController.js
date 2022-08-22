@@ -71,11 +71,9 @@ exports.verifyAccount = async (req, res, next) => {
 
   transporter.sendMail(mailContent, (err, _info) => {
     if (err) return next();
-    res
-      .status(200)
-      .json({
-        message: `Please check your mailbox for verifying your account `,
-        pass: secretPass,
-      });
+    res.status(200).json({
+      message: `Please check your mailbox for verifying your account `,
+      pass: secretPass,
+    });
   });
 };
