@@ -5,7 +5,7 @@ import {View, StyleSheet, TextInput, Animated} from 'react-native';
 import TextElement from './TextElement';
 
 // Styles
-import {dark} from '../../assets/palette/pallete.json';
+import {dark, light, white} from '../../assets/palette/pallete.json';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -17,6 +17,7 @@ const InputElement = ({
   errorMessage,
   keyboardType,
   label,
+  editable,
   maxLength,
   customStyle,
 }) => {
@@ -64,10 +65,11 @@ const InputElement = ({
           onChangeText={onChangeText}
           onBlur={floatBlur}
           onFocus={floatFocus}
+          editable={editable}
           keyboardType={keyboardType ? 'decimal-pad' : 'default'}
           maxLength={maxLength}
           ref={node => (inputRef.current = node)}
-          style={styles.input}
+          style={[styles.input, {backgroundColor: editable ? white : light}]}
         />
       </View>
       <Animated.View
