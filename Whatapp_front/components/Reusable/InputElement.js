@@ -19,6 +19,7 @@ const InputElement = ({
   label,
   editable,
   maxLength,
+  width,
   customStyle,
 }) => {
   const floatingStarts = hp('2%');
@@ -69,7 +70,7 @@ const InputElement = ({
           keyboardType={keyboardType ? 'decimal-pad' : 'default'}
           maxLength={maxLength}
           ref={node => (inputRef.current = node)}
-          style={[styles.input, {backgroundColor: editable ? white : light}]}
+          style={[styles.input, {width: width || wp('90%')}]}
         />
       </View>
       <Animated.View
@@ -90,21 +91,19 @@ const InputElement = ({
 const styles = StyleSheet.create({
   InputElementConainer: {
     alignItems: 'center',
-    marginTop: 16,
   },
   inputContainer: {
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 6,
     height: 50,
     borderColor: dark,
   },
   input: {
     paddingLeft: 10,
-    width: wp('90%'),
   },
   floatingLable: {
     position: 'absolute',
-    left: 15,
+    left: '5%',
   },
 });
 

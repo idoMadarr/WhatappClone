@@ -1,11 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Keyboard} from 'react-native';
-import Animated, {
-  FadeInDown,
-  FadeInUp,
-  Layout,
-  Transition,
-} from 'react-native-reanimated';
+import Animated, {FadeInDown, Layout} from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import {verifyMailBox} from '../../redux/actions';
@@ -17,7 +12,6 @@ import TextElement from '../Reusable/TextElement';
 
 // Styles
 import {primary, white} from '../../assets/palette/pallete.json';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const VerifyForm = () => {
   const [mailState, setMailState] = useState('');
@@ -51,35 +45,7 @@ const VerifyForm = () => {
   let displayVerificationInput = null;
   if (!verificationMode) {
     displayVerificationInput = (
-      <InputElement
-        inputValue={verificationState}
-        onChangeText={upadeVerificationState}
-        label={'Please Enter Your Code'}
-        maxLength={6}
-        editable={true}
-      />
-    );
-  }
-
-  return (
-    <Animated.View
-      entering={FadeInDown}
-      exiting={FadeInUp}
-      layout={Layout.duration(3000)}
-      style={styles.formContainer}>
-      <TextElement medium>Login to your account</TextElement>
-      <TextElement small>
-        Verify your account by getting a secret number directly to your mailbox
-      </TextElement>
-      <InputElement
-        inputValue={mailState}
-        onChangeText={upadeMailState}
-        label={'Email Address'}
-        maxLength={30}
-        editable={verificationMode}
-      />
-      {/* {displayVerificationInput} */}
-      {!verificationMode && (
+      <Animated.View entering={FadeInDown}>
         <InputElement
           inputValue={verificationState}
           onChangeText={upadeVerificationState}
@@ -87,23 +53,50 @@ const VerifyForm = () => {
           maxLength={6}
           editable={true}
         />
-      )}
-      <ButtonElement
-        title={verificationMode ? 'Send' : 'Verify'}
-        onPress={verificationMode ? onSend : onVerify}
-        backgroundColor={primary}
-        titleColor={white}
-        disable={isValid}
-      />
+      </Animated.View>
+    );
+  }
+
+  return (
+    <Animated.View entering={FadeInDown} style={styles.formContainer}>
+      <View style={styles.main}>
+        <TextElement medium>Login to your account</TextElement>
+        <TextElement small>
+          Verify your account by getting a secret number directly to your
+          mailbox
+        </TextElement>
+        <InputElement
+          inputValue={mailState}
+          onChangeText={upadeMailState}
+          label={'Email Address'}
+          maxLength={30}
+          editable={verificationMode}
+        />
+        {displayVerificationInput}
+      </View>
+
+      <Animated.View layout={Layout}>
+        <ButtonElement
+          title={verificationMode ? 'Send' : 'Verify'}
+          onPress={verificationMode ? onSend : onVerify}
+          backgroundColor={primary}
+          titleColor={white}
+          disable={isValid}
+        />
+      </Animated.View>
     </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   formContainer: {
-    width: wp('90%'),
+    flex: 1,
+    justifyContent: 'space-between',
     alignSelf: 'center',
-    marginTop: 16,
+    marginVertical: 16,
+  },
+  main: {
+    paddingHorizontal: 16,
   },
 });
 

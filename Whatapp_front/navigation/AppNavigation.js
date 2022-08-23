@@ -3,13 +3,14 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from '../utils/rootNavigation';
 import TopTabNavigation from './TopTabNavigation';
-import {AuthNavigation} from './StackNavigation';
+import AuthNavigation from './AuthNavigation';
 
 // Redux
 import {useSelector} from 'react-redux';
 
 // Components
-import AppHeader from '../components/AppHader/AppHeader';
+import SignupHeader from '../components/SignupPartials/SignupHeader';
+// import AppHeader from '../components/AppHader/AppHeader';
 
 const AppNavigation = () => {
   const AppNavigator = createNativeStackNavigator();
@@ -29,6 +30,7 @@ const AppNavigation = () => {
             <AppNavigator.Screen
               name={'auth-screen'}
               component={AuthNavigation}
+              options={{headerShown: true, header: () => <SignupHeader />}}
             />
           </AppNavigator.Group>
         )}
