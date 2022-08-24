@@ -22,7 +22,7 @@ const SignupHeader = () => {
 
 const styles = StyleSheet.create({
   iconHeader: {
-    height: hp('28%'),
+    height: hp('20%'),
     backgroundColor: primary,
     justifyContent: 'space-evenly',
     alignItems: 'center',

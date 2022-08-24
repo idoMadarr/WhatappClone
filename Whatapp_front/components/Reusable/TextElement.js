@@ -1,11 +1,11 @@
 import React from 'react';
 import {Text} from 'react-native';
 
-const TextElement = ({children, customStyle, bold, large, medium}) => {
+const TextElement = ({children, customStyle, bold, large, small}) => {
   return (
     <Text
       style={{
-        fontSize: large ? 24 : medium ? 20 : 14,
+        fontSize: large ? 22 : small ? 12 : 14,
         fontFamily: bold ? 'Poppins-Bold' : 'Poppins-Regular',
         ...customStyle,
       }}>

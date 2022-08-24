@@ -12,6 +12,8 @@ export const verifyMailBox =
     console.log(data);
   };
 
+export const setModal = () => dispatch => {};
+
 // export const saveToStorage = async (name, payload, identifier) => {
 //   await AsyncStorage.setItem(${name}`, JSON.stringify(payload));
 // };

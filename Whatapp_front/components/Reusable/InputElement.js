@@ -25,7 +25,7 @@ const InputElement = ({
   const floatingStarts = hp('2%');
 
   const transitionRef = useRef(new Animated.Value(floatingStarts)).current;
-  const scaleRef = useRef(new Animated.Value(1.1)).current;
+  const scaleRef = useRef(new Animated.Value(0.9)).current;
   const inputRef = useRef();
 
   const floatFocus = (duration = 100) => {
@@ -50,7 +50,7 @@ const InputElement = ({
         useNativeDriver: true,
       }).start();
       Animated.timing(scaleRef, {
-        toValue: 1,
+        toValue: 0.9,
         duration,
         useNativeDriver: true,
       }).start();
@@ -83,7 +83,9 @@ const InputElement = ({
           {label}
         </Animated.Text>
       </Animated.View>
-      <TextElement small>{errorMessage}</TextElement>
+      <TextElement customStyle={{textAlign: 'left', width: '98%'}} small>
+        {errorMessage}
+      </TextElement>
     </View>
   );
 };
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     borderWidth: 1,
     borderRadius: 6,
-    height: 50,
+    height: 46,
     borderColor: dark,
   },
   input: {

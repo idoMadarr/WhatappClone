@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -9,21 +9,49 @@ import {
 // Components
 import StatusBarElement from '../components/Reusable/StatusBarElement';
 import SignupForm from '../components/SignupPartials/SignupForm';
+import CountriesModal from '../components/SignupPartials/CountriesModal';
+import {Modalize} from 'react-native-modalize';
 
 // Styles
-import PlusIcon from '../assets/icons/plusIcon.svg';
-import {primary, white, teal} from '../assets/palette/pallete.json';
+import {primary, white} from '../assets/palette/pallete.json';
+
+import {countriesArray} from '../fixtures/countries.json';
+import TextElement from '../components/Reusable/TextElement';
 
 const SignupScreen = () => {
+  const modalizeRef = useRef();
+
+  const onPicker = () => {
+    openModal();
+  };
+
+  const openModal = () => modalizeRef.current.open();
+
+  const closeModal = () => modalizeRef.current.close();
+
   return (
     <SafeAreaView style={styles.screen}>
       <StatusBarElement barStyle={'light-content'} backgroundColor={primary} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <SignupForm />
+      <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}>
+        <SignupForm onPicker={onPicker} />
       </ScrollView>
-      <TouchableOpacity style={styles.createBotton}>
-        <PlusIcon style={{color: white}} />
-      </TouchableOpacity>
+      <Modalize
+        ref={modalizeRef}
+        flatListProps={{
+          data: countriesArray,
+          keyExtractor: itemData => itemData.iso2,
+          ListHeaderComponent: () => (
+            <TouchableOpacity onPress={closeModal}>
+              <TextElement>Close!</TextElement>
+            </TouchableOpacity>
+          ),
+          renderItem: ({item}) => (
+            <TouchableOpacity>
+              <TextElement>{item.name}</TextElement>
+            </TouchableOpacity>
+          ),
+        }}
+      />
     </SafeAreaView>
   );
 };
@@ -32,18 +60,6 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: white,
-  },
-  createBotton: {
-    width: 50,
-    height: 50,
-    backgroundColor: teal,
-    borderRadius: 150,
-    position: 'absolute',
-    top: '85%',
-    left: '85%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 5,
   },
 });
 

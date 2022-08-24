@@ -6,10 +6,8 @@ import TextElement from './TextElement';
 import ArrowDownInput from '../../assets/icons/arrowDownInput.svg';
 
 // Style
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {dark} from '../../assets/palette/pallete.json';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const InputPickerElement = ({textContent, openModal, customStyle}) => {
   return (
@@ -17,7 +15,7 @@ const InputPickerElement = ({textContent, openModal, customStyle}) => {
       style={[styles.selectContainer, customStyle]}
       onPress={openModal}>
       <View style={styles.contentContainer}>
-        <TextElement>{textContent}</TextElement>
+        <TextElement small>{textContent}</TextElement>
       </View>
       <ArrowDownInput />
     </TouchableOpacity>
@@ -26,7 +24,7 @@ const InputPickerElement = ({textContent, openModal, customStyle}) => {
 
 const styles = StyleSheet.create({
   selectContainer: {
-    height: 50,
+    height: 46,
     width: wp('90%'),
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -34,7 +32,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flexDirection: 'row',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 6,
+    borderColor: dark,
   },
   contentContainer: {
     // alignItems: 'center',
