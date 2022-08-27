@@ -1,21 +1,30 @@
-import React, {useRef} from 'react';
-import {View, StyleSheet, TextInput, Animated} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Animated,
+  TouchableOpacity,
+} from 'react-native';
 
 // Components
 import TextElement from './TextElement';
 
 // Styles
-import {dark, light, white} from '../../assets/palette/pallete.json';
+import {dark, warning, regular, black} from '../../assets/palette/pallete.json';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
 const InputElement = ({
+  children,
   inputValue,
   onChangeText,
   errorMessage,
-  keyboardType,
+  numPad,
+  secureTextEntry,
+  handleSecureEntry,
   label,
   editable,
   maxLength,
@@ -27,6 +36,10 @@ const InputElement = ({
   const transitionRef = useRef(new Animated.Value(floatingStarts)).current;
   const scaleRef = useRef(new Animated.Value(0.9)).current;
   const inputRef = useRef();
+
+  useEffect(() => {
+    inputValue?.length > 0 && floatFocus(0) && floatBlur(0);
+  }, []);
 
   const floatFocus = (duration = 100) => {
     Animated.spring(transitionRef, {
@@ -66,12 +79,18 @@ const InputElement = ({
           onChangeText={onChangeText}
           onBlur={floatBlur}
           onFocus={floatFocus}
+          secureTextEntry={secureTextEntry}
           editable={editable}
-          keyboardType={keyboardType ? 'decimal-pad' : 'default'}
+          keyboardType={numPad ? 'decimal-pad' : 'default'}
           maxLength={maxLength}
           ref={node => (inputRef.current = node)}
           style={[styles.input, {width: width || wp('90%')}]}
         />
+        <TouchableOpacity
+          onPress={handleSecureEntry}
+          style={styles.iconContainer}>
+          {children}
+        </TouchableOpacity>
       </View>
       <Animated.View
         onTouchEnd={floatFocus}
@@ -83,8 +102,8 @@ const InputElement = ({
           {label}
         </Animated.Text>
       </Animated.View>
-      <TextElement customStyle={{textAlign: 'left', width: '98%'}} small>
-        {errorMessage}
+      <TextElement customStyle={styles.error} small>
+        {errorMessage || ' '}
       </TextElement>
     </View>
   );
@@ -99,13 +118,28 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     height: 46,
     borderColor: dark,
+    alignItems: 'flex-end',
   },
   input: {
     paddingLeft: 10,
   },
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    width: 45,
+    height: '100%',
+    overflow: 'hidden',
+  },
   floatingLable: {
     position: 'absolute',
+    top: -1,
     left: '5%',
+  },
+  error: {
+    width: '98%',
+    textAlign: 'left',
+    color: warning,
   },
 });
 

@@ -28,6 +28,11 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
     },
+    activated: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     isAdmin: {
       type: Boolean,
       default: false,

@@ -57,7 +57,7 @@ exports.signIn = async (req, res, _next) => {
   });
 };
 
-exports.verifyAccount = async (req, res, next) => {
+exports.verificationCode = async (req, res, next) => {
   const { userMail } = req.body;
   const secretPass = generateCodeVerification();
 
@@ -77,3 +77,5 @@ exports.verifyAccount = async (req, res, next) => {
     });
   });
 };
+
+exports.verifyAccount = async (req, res, next) => {};

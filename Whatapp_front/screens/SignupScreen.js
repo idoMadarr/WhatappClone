@@ -1,5 +1,6 @@
-import React, {useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import {
+  View,
   StyleSheet,
   SafeAreaView,
   ScrollView,
@@ -9,48 +10,80 @@ import {
 // Components
 import StatusBarElement from '../components/Reusable/StatusBarElement';
 import SignupForm from '../components/SignupPartials/SignupForm';
-import CountriesModal from '../components/SignupPartials/CountriesModal';
+import CountryItem from '../components/SignupPartials/CountryItem';
+import TextElement from '../components/Reusable/TextElement';
+import LinkElement from '../components/Reusable/LinkElement';
 import {Modalize} from 'react-native-modalize';
 
 // Styles
-import {primary, white} from '../assets/palette/pallete.json';
+import CloseIcon from '../assets/icons/closeIcon.svg';
+import {primary, white, greyish, black} from '../assets/palette/pallete.json';
 
+// Fixtures
 import {countriesArray} from '../fixtures/countries.json';
-import TextElement from '../components/Reusable/TextElement';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-const SignupScreen = () => {
+const defaultCountry = {iso2: 'IL', countryCode: 972, name: 'Israel'};
+
+const SignupScreen = ({navigation}) => {
+  const [selectedCountry, setSelectedCountry] = useState(defaultCountry);
   const modalizeRef = useRef();
 
   const onPicker = () => {
     openModal();
   };
 
+  const onSelect = country => {
+    setSelectedCountry(country);
+    closeModal();
+  };
+
   const openModal = () => modalizeRef.current.open();
 
   const closeModal = () => modalizeRef.current.close();
+
+  const signinNavigate = () => navigation.navigate('signin-screen');
+
+  const flatListProps = {
+    data: countriesArray,
+    keyExtractor: itemData => itemData.iso2,
+    initialNumToRender: 10,
+    removeClippedSubviews: true,
+    showsVerticalScrollIndicator: false,
+    ListHeaderComponent: () => (
+      <View style={styles.listHeader}>
+        <TouchableOpacity onPress={closeModal} style={styles.center}>
+          <CloseIcon style={{color: black}} />
+          <TextElement>Close</TextElement>
+        </TouchableOpacity>
+      </View>
+    ),
+    renderItem: ({item}) => (
+      <CountryItem
+        countryName={item.name}
+        iso2={item.iso2}
+        onSelect={onSelect}
+      />
+    ),
+    ItemSeparatorComponent: () => <View style={styles.seperator} />,
+  };
 
   return (
     <SafeAreaView style={styles.screen}>
       <StatusBarElement barStyle={'light-content'} backgroundColor={primary} />
       <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}>
-        <SignupForm onPicker={onPicker} />
+        <SignupForm onPicker={onPicker} selectedCountry={selectedCountry} />
+        <View style={styles.clickhereContainer}>
+          <LinkElement link={{label: 'Sign in', navigate: signinNavigate}}>
+            * Already have an account?
+          </LinkElement>
+        </View>
       </ScrollView>
       <Modalize
         ref={modalizeRef}
-        flatListProps={{
-          data: countriesArray,
-          keyExtractor: itemData => itemData.iso2,
-          ListHeaderComponent: () => (
-            <TouchableOpacity onPress={closeModal}>
-              <TextElement>Close!</TextElement>
-            </TouchableOpacity>
-          ),
-          renderItem: ({item}) => (
-            <TouchableOpacity>
-              <TextElement>{item.name}</TextElement>
-            </TouchableOpacity>
-          ),
-        }}
+        modalStyle={{paddingTop: 28}}
+        modalHeight={hp('65%')}
+        flatListProps={flatListProps}
       />
     </SafeAreaView>
   );
@@ -60,6 +93,25 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: white,
+    paddingBottom: 8,
+  },
+  listHeader: {
+    height: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  center: {
+    alignItems: 'center',
+  },
+  seperator: {
+    borderWidth: 0.4,
+    marginHorizontal: 16,
+    borderColor: greyish,
+  },
+  clickhereContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 16,
   },
 });
 

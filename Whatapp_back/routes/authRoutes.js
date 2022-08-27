@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 const {
   signIn,
   signUp,
+  verificationCode,
   verifyAccount,
 } = require('../controller/authController');
 
@@ -28,6 +29,9 @@ route.post(
 );
 
 // Url: http://localhost:5000/auth/verification
-route.post('/verification', verifyAccount);
+route.post('/verification', verificationCode);
+
+// Url: http://localhost:5000/auth/check-verification
+route.post('/check-verification', verifyAccount);
 
 module.exports = route;

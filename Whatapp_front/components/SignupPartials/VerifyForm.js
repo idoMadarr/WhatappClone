@@ -1,8 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Keyboard} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  Keyboard,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import Animated, {FadeInDown, Layout} from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {verifyMailBox} from '../../redux/actions';
 
 // Components
@@ -11,28 +17,25 @@ import ButtonElement from '../Reusable/ButtonElement';
 import TextElement from '../Reusable/TextElement';
 
 // Styles
-import {primary, white} from '../../assets/palette/pallete.json';
+import ApprovedIcon from '../../assets/icons/approvedIcon.svg';
+import {teal, white, greyish} from '../../assets/palette/pallete.json';
 
-const VerifyForm = () => {
-  const [mailState, setMailState] = useState('');
+const VerifyForm = ({userMailbox}) => {
+  const isLoading = useSelector(state => state.mainSlice.isLoading);
+
+  const [mailState, setMailState] = useState(userMailbox);
   const [verificationState, setVerificationState] = useState('');
-  const [isValid, setIsValid] = useState(false);
   const [verificationMode, setVerificationMode] = useState(true);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setIsValid(!mailState.includes('@'));
-  }, [mailState]);
 
   const upadeMailState = value => setMailState(value);
 
   const upadeVerificationState = value => setVerificationState(value);
 
-  const onSend = async () => {
-    Keyboard.dismiss();
-    dispatch(verifyMailBox(mailState, setVerificationMode));
-  };
+  useEffect(() => {
+    dispatch(verifyMailBox(userMailbox, setVerificationMode));
+  }, []);
 
   const onVerify = async () => {
     const pass = await AsyncStorage.getItem('temp_pass');
@@ -60,29 +63,26 @@ const VerifyForm = () => {
   return (
     <Animated.View entering={FadeInDown} style={styles.formContainer}>
       <View style={styles.main}>
-        <TextElement medium>Login to your account</TextElement>
-        <TextElement small>
-          Verify your account by getting a secret number directly to your
-          mailbox
-        </TextElement>
+        <TextElement
+          customStyle={{color: 'black'}}
+          medium>{`Hi ${userMailbox}, we have sent a secret key to your email, please verify your mail in order to activate your account.`}</TextElement>
         <InputElement
           inputValue={mailState}
           onChangeText={upadeMailState}
           label={'Email Address'}
           maxLength={30}
-          editable={verificationMode}
+          editable={false}
+          customStyle={{backgroundColor: greyish}}
         />
         {displayVerificationInput}
+        {isLoading && <ActivityIndicator size={'large'} color={teal} />}
       </View>
-
-      <Animated.View layout={Layout}>
-        <ButtonElement
-          title={verificationMode ? 'Send' : 'Verify'}
-          onPress={verificationMode ? onSend : onVerify}
-          backgroundColor={primary}
-          titleColor={white}
-          disable={isValid}
-        />
+      <Animated.View style={styles.createBotton} layout={Layout}>
+        <TouchableOpacity
+          // onPress={onPlus}
+          activeOpacity={0.8}>
+          <ApprovedIcon />
+        </TouchableOpacity>
       </Animated.View>
     </Animated.View>
   );
@@ -96,7 +96,19 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   main: {
-    paddingHorizontal: 16,
+    marginHorizontal: 16,
+  },
+  createBotton: {
+    width: 50,
+    height: 50,
+    backgroundColor: teal,
+    borderRadius: 150,
+    position: 'absolute',
+    top: '88%',
+    left: '82%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5,
   },
 });
 

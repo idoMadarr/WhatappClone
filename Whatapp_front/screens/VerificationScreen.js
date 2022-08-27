@@ -9,11 +9,13 @@ import VerifyForm from '../components/SignupPartials/VerifyForm';
 import {white} from '../assets/palette/pallete.json';
 import {primary} from '../assets/palette/pallete.json';
 
-const VerificationScreen = () => {
+const VerificationScreen = ({route}) => {
+  const userMailbox = route.params.email;
+
   return (
     <SafeAreaView style={styles.screen}>
       <StatusBarElement barStyle={'light-content'} backgroundColor={primary} />
-      <VerifyForm />
+      <VerifyForm userMailbox={userMailbox} />
     </SafeAreaView>
   );
 };

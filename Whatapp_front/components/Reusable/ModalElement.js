@@ -1,20 +1,31 @@
 import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View, StyleSheet} from 'react-native';
 
 // Components
 import TextElement from './TextElement';
 
 // Styles
+import CloseIcon from '../../assets/icons/closeIcon.svg';
+import {white, black} from '../../assets/palette/pallete.json';
 
-const ModalElement = ({children, closeModal}) => {
+const ModalElement = ({message, closeModal}) => {
   return (
-    <View>
-      <TouchableOpacity onPress={closeModal}>
-        <TextElement>close</TextElement>
+    <View style={styles.container}>
+      <TouchableOpacity onPress={closeModal} style={styles.closeContainer}>
+        <CloseIcon style={{color: black}} />
       </TouchableOpacity>
-      <TextElement>ModalElement</TextElement>
+      <TextElement>{message}</TextElement>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+  },
+  closeContainer: {
+    alignItems: 'flex-end',
+  },
+});
 
 export default ModalElement;
