@@ -5,7 +5,7 @@ import {setMessage} from '../redux/slice';
 axios.interceptors.response.use(
   response => response.data,
   error => {
-    const message = error.response.data.errorMessage;
+    const message = error.response.data;
     store.dispatch(setMessage(message));
     return false;
   },

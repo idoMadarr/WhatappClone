@@ -20,9 +20,4 @@ export const signUp = state => async () => {
 
 export const signIn = state => async dispatch => {
   const data = await axios.post(`${Domain}auth/sign-in`, state);
-  console.log(data);
 };
-
-// export const saveToStorage = async (name, payload, identifier) => {
-//   await AsyncStorage.setItem(${name}`, JSON.stringify(payload));
-// };

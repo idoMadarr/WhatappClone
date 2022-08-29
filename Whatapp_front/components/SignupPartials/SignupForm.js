@@ -194,7 +194,6 @@ const styles = StyleSheet.create({
     height: hp('70%'),
     width: wp('90%'),
     alignSelf: 'center',
-    // backgroundColor: 'blue',
   },
   phoneContainer: {
     flexDirection: 'row',

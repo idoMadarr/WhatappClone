@@ -11,21 +11,27 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const SignupHeader = () => {
   return (
-    <View style={styles.iconHeader}>
-      <WhatsappLogo />
-      <TextElement large customStyle={styles.titleColor}>
-        Whatsapp
-      </TextElement>
+    <View style={styles.warpper}>
+      <View style={styles.iconHeader}>
+        <WhatsappLogo />
+        <TextElement large customStyle={styles.titleColor}>
+          Whatsapp
+        </TextElement>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  warpper: {
+    backgroundColor: white,
+  },
   iconHeader: {
     height: hp('20%'),
     backgroundColor: primary,
     justifyContent: 'space-evenly',
     alignItems: 'center',
+    marginBottom: 16,
   },
   titleColor: {
     color: white,

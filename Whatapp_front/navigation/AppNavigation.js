@@ -27,13 +27,14 @@ const AppNavigation = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (message) modalizeRef.current.open();
+    if (message) {
+      modalizeRef.current.open();
+    } else {
+      dispatch(clearMessage());
+    }
   }, [message]);
 
-  const closeModal = () => {
-    modalizeRef.current.close();
-    dispatch(clearMessage());
-  };
+  const closeModal = async () => modalizeRef.current.close();
 
   return (
     <NavigationContainer ref={navigationRef}>

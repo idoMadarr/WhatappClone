@@ -51,6 +51,15 @@ exports.signIn = async (req, res, _next) => {
   const isMatch = await bcryptjs.compare(password, userExist.password);
   if (!isMatch) return res.status(401).json(message);
 
+  if (!userExist.activated) {
+    const activationMessage = new Message(
+      'Make sure to activate your account',
+      401,
+      true
+    );
+    return res.status(401).json(activationMessage);
+  }
+
   const identifier = { id: userExist._id };
   jwt.sign(identifier, process.env.SECERT, (_error, token) => {
     res.status(200).json({ token, username: userExist.username });
@@ -78,4 +87,14 @@ exports.verificationCode = async (req, res, next) => {
   });
 };
 
-exports.verifyAccount = async (req, res, next) => {};
+exports.verifyAccount = async (req, res, next) => {
+  const { userMail } = req.body;
+
+  await UserModule.findOneAndUpdate({ email: userMail }, { activated: true });
+
+  const message = new Message(
+    `Congratulations ${userMail}, your account activation has been initiated`,
+    200
+  );
+  res.status(200).json(message);
+};

@@ -1,7 +1,8 @@
 class Message {
-  constructor(errorMessage, errorCode) {
+  constructor(errorMessage, errorCode, action = null) {
     this.errorMessage = errorMessage;
     this.errorCode = errorCode;
+    this.action = action;
   }
 }
 

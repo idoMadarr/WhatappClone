@@ -11,7 +11,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 // Styles
 import PlusIcon from '../../assets/icons/plusIcon.svg';
 import PasswordIcon from '../../assets/icons/passwordIcon.svg';
-import {black, teal, white} from '../../assets/palette/pallete.json';
+import {black, teal, white, greyish} from '../../assets/palette/pallete.json';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -57,9 +57,9 @@ const SigninForm = () => {
 
     if (!email.includes('@') || email.trim() === '')
       emailError = 'Please enter valid email';
-    if (!new RegExp(passRegex).test(password))
-      passwordError =
-        'Minimum eight characters, at least one letter and one number';
+    // if (!new RegExp(passRegex).test(password))
+    //   passwordError =
+    //     'Minimum eight characters, at least one letter and one number';
 
     if (emailError || passwordError) {
       setFormErrorsState({
@@ -121,8 +121,11 @@ const SigninForm = () => {
         </TextElement>
       </View>
       <TouchableOpacity
-        onPress={onPlus}
-        style={styles.createBotton}
+        onPress={checked ? onPlus : null}
+        style={[
+          styles.createBotton,
+          {backgroundColor: checked ? teal : greyish},
+        ]}
         activeOpacity={0.8}>
         <PlusIcon style={{color: white}} />
       </TouchableOpacity>
@@ -132,14 +135,13 @@ const SigninForm = () => {
 
 const styles = StyleSheet.create({
   formContainer: {
-    flex: 1,
+    height: hp('70%'),
     width: wp('90%'),
     alignSelf: 'center',
   },
   createBotton: {
     width: 50,
     height: 50,
-    backgroundColor: teal,
     borderRadius: 150,
     position: 'absolute',
     top: '90%',

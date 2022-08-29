@@ -27,6 +27,7 @@ export const mainSlice = createSlice({
   },
 });
 
-export const {setMessage, clearMessage, clearSpinner} = mainSlice.actions;
+export const {setAuth, setMessage, clearMessage, clearSpinner} =
+  mainSlice.actions;
 
 export default mainSlice.reducer;
