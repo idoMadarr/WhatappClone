@@ -1,21 +1,18 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Image} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {signIn} from '../../redux/actions';
 
 // Components
 import TextElement from '../Reusable/TextElement';
 import InputElement from '../Reusable/InputElement';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import PlueElement from '../Reusable/PlueElement';
+import LinkElement from '../Reusable/LinkElement';
 
 // Styles
-import PlusIcon from '../../assets/icons/plusIcon.svg';
 import PasswordIcon from '../../assets/icons/passwordIcon.svg';
-import {black, teal, white, greyish} from '../../assets/palette/pallete.json';
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
+import {black} from '../../assets/palette/pallete.json';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const initState = {
   email: '',
@@ -27,11 +24,10 @@ const initErrorsState = {
   passwordError: '',
 };
 
-const SigninForm = () => {
+const SigninForm = ({signupNavigate}) => {
   const [formState, setFormState] = useState(initState);
   const [formErrorsState, setFormErrorsState] = useState(initErrorsState);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const [checked, setChecked] = useState(false);
 
   const {email, password} = formState;
   const {emailError, passwordError} = formErrorsState;
@@ -41,12 +37,7 @@ const SigninForm = () => {
   const updateState = (key, value) => {
     setFormState(prevState => ({...prevState, [key]: value}));
   };
-
   const showPassword = () => setSecureTextEntry(!secureTextEntry);
-
-  const onCheck = isChecked => {
-    setChecked(isChecked);
-  };
 
   const formValidator = () => {
     let isValid = true;
@@ -75,13 +66,14 @@ const SigninForm = () => {
   const onPlus = () => {
     const isValid = formValidator();
     if (isValid) {
+      console.log(123);
       dispatch(signIn(formState));
     }
   };
 
   return (
     <View style={styles.formContainer}>
-      <View style={{marginBottom: 16}}>
+      <View style={{marginBottom: 8}}>
         <TextElement>
           WhatsApp is not only free but also available on multiple mobile
           devices and in low connectivity areas —
@@ -90,68 +82,59 @@ const SigninForm = () => {
           </TextElement>
         </TextElement>
       </View>
-      <InputElement
-        inputValue={email}
-        onChangeText={updateState.bind(this, 'email')}
-        errorMessage={emailError}
-        label={'Email'}
-        maxLength={35}
-      />
-      <InputElement
-        inputValue={password}
-        onChangeText={updateState.bind(this, 'password')}
-        errorMessage={passwordError}
-        label={'Password'}
-        secureTextEntry={secureTextEntry}
-        handleSecureEntry={showPassword}
-        maxLength={10}>
-        <PasswordIcon />
-      </InputElement>
-      <View style={styles.disclaimer}>
-        <BouncyCheckbox
-          size={24}
-          fillColor={teal}
-          onPress={onCheck}
-          style={{width: 25, marginRight: 5}}
-          isChecked={checked}
+      <View>
+        <InputElement
+          inputValue={email}
+          onChangeText={updateState.bind(this, 'email')}
+          errorMessage={emailError}
+          label={'Email'}
+          maxLength={35}
         />
-        <TextElement customStyle={{width: wp('80%')}}>
-          Click here to indicate that you've read and agree to the Terms and
-          Conditions agreement
-        </TextElement>
+        <InputElement
+          inputValue={password}
+          onChangeText={updateState.bind(this, 'password')}
+          errorMessage={passwordError}
+          label={'Password'}
+          secureTextEntry={secureTextEntry}
+          handleSecureEntry={showPassword}
+          maxLength={10}>
+          <PasswordIcon />
+        </InputElement>
       </View>
-      <TouchableOpacity
-        onPress={checked ? onPlus : null}
-        style={[
-          styles.createBotton,
-          {backgroundColor: checked ? teal : greyish},
-        ]}
-        activeOpacity={0.8}>
-        <PlusIcon style={{color: white}} />
-      </TouchableOpacity>
+      <Image
+        source={require('../../assets/images/enter-boarding.jpg')}
+        resizeMode={'cover'}
+        style={styles.image}
+      />
+      <View style={styles.accountContainer}>
+        <PlueElement checked={true} onPress={onPlus} />
+        <LinkElement link={{label: 'Sign up', navigate: signupNavigate}}>
+          * Don't have account yet?
+        </LinkElement>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   formContainer: {
-    height: hp('70%'),
-    width: wp('90%'),
+    flex: 1,
+    width: wp('85%'),
+    justifyContent: 'space-between',
     alignSelf: 'center',
   },
-  createBotton: {
-    width: 50,
-    height: 50,
-    borderRadius: 150,
-    position: 'absolute',
-    top: '90%',
-    left: '84%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 5,
+  image: {
+    width: 65,
+    height: 65,
+    alignSelf: 'center',
+    marginVertical: 16,
   },
   disclaimer: {
     flexDirection: 'row',
+    alignItems: 'center',
+  },
+  accountContainer: {
+    justifyContent: 'center',
     alignItems: 'center',
   },
 });

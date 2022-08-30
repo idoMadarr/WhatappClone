@@ -19,6 +19,7 @@ import TextElement from '../Reusable/TextElement';
 // Styles
 import ApprovedIcon from '../../assets/icons/approvedIcon.svg';
 import {teal, greyish} from '../../assets/palette/pallete.json';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const VerifyForm = ({userMailbox}) => {
   const [verificationState, setVerificationState] = useState('');
@@ -59,18 +60,16 @@ const VerifyForm = ({userMailbox}) => {
 
   return (
     <Animated.View entering={FadeInDown} style={styles.formContainer}>
-      <View style={styles.main}>
-        <TextElement
-          customStyle={{color: 'black'}}
-          medium>{`Hi ${userMailbox}, we have sent a secret key to your email, please verify your mail in order to activate your account.`}</TextElement>
-        <InputElement
-          inputValue={userMailbox}
-          label={'Email Address'}
-          editable={false}
-          customStyle={{backgroundColor: greyish}}
-        />
-        {displayVerificationInput}
-      </View>
+      <TextElement
+        customStyle={{color: 'black'}}
+        medium>{`Hi ${userMailbox}, we have sent a secret key to your email, please verify your mail in order to activate your account.`}</TextElement>
+      <InputElement
+        inputValue={userMailbox}
+        label={'Email Address'}
+        editable={false}
+        customStyle={{backgroundColor: greyish}}
+      />
+      {displayVerificationInput}
       <Animated.View style={styles.createBotton} layout={Layout}>
         <TouchableOpacity onPress={onVerify} activeOpacity={0.6}>
           <ApprovedIcon />
@@ -83,12 +82,9 @@ const VerifyForm = ({userMailbox}) => {
 const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
-    justifyContent: 'space-between',
+    width: wp('85%'),
     alignSelf: 'center',
-    marginVertical: 16,
-  },
-  main: {
-    marginHorizontal: 16,
+    marginVertical: 8,
   },
   createBotton: {
     width: 50,

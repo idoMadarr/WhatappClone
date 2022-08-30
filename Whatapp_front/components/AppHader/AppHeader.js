@@ -13,7 +13,7 @@ const AppHeader = () => {
   return (
     <View style={styles.headerContainer}>
       <TextElement customStyle={{color: white, fontSize: 22}}>
-        Whatapp
+        Whatsapp
       </TextElement>
     </View>
   );

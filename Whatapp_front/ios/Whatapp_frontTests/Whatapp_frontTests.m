@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface Whatapp_frontTests : XCTestCase
+@interface Whatsapp_frontTests : XCTestCase
 
 @end
 
-@implementation Whatapp_frontTests
+@implementation Whatsapp_frontTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {

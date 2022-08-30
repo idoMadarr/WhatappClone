@@ -71,14 +71,11 @@ const SignupScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.screen}>
       <StatusBarElement barStyle={'light-content'} backgroundColor={primary} />
-      <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}>
-        <SignupForm onPicker={onPicker} selectedCountry={selectedCountry} />
-        <View style={styles.clickhereContainer}>
-          <LinkElement link={{label: 'Sign in', navigate: signinNavigate}}>
-            * Already have an account?
-          </LinkElement>
-        </View>
-      </ScrollView>
+      <SignupForm
+        onPicker={onPicker}
+        selectedCountry={selectedCountry}
+        signinNavigate={signinNavigate}
+      />
       <Modalize
         ref={modalizeRef}
         modalStyle={{paddingTop: 28}}
@@ -93,7 +90,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: white,
-    paddingBottom: 8,
+    paddingBottom: 16,
   },
   listHeader: {
     height: 80,
@@ -107,11 +104,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.4,
     marginHorizontal: 16,
     borderColor: greyish,
-  },
-  clickhereContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 16,
   },
 });
 

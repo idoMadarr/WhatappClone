@@ -22,7 +22,7 @@ const InitScreen = ({navigation}) => {
       <WhatsappLogo />
       <ActivityIndicator size={'large'} color={white} style={styles.spinner} />
       <TextElement large customStyle={styles.title}>
-        WhatappClone
+        WhatsappClone
       </TextElement>
     </View>
   );

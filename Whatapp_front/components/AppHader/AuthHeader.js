@@ -15,7 +15,7 @@ const SignupHeader = () => {
       <View style={styles.iconHeader}>
         <WhatsappLogo />
         <TextElement large customStyle={styles.titleColor}>
-          Whatsapp
+          WhatsappClone
         </TextElement>
       </View>
     </View>
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: white,
   },
   iconHeader: {
-    height: hp('20%'),
+    height: hp('18%'),
     backgroundColor: primary,
     justifyContent: 'space-evenly',
     alignItems: 'center',

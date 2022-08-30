@@ -16,14 +16,7 @@ const SigninScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.screen}>
       <StatusBarElement barStyle={'light-content'} backgroundColor={primary} />
-      <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}>
-        <SigninForm />
-        <View style={styles.clickhereContainer}>
-          <LinkElement link={{label: 'Sign up', navigate: signupNavigate}}>
-            * Don't have account yet?
-          </LinkElement>
-        </View>
-      </ScrollView>
+      <SigninForm signupNavigate={signupNavigate} />
     </SafeAreaView>
   );
 };

@@ -84,7 +84,7 @@ const InputElement = ({
           keyboardType={numPad ? 'decimal-pad' : 'default'}
           maxLength={maxLength}
           ref={node => (inputRef.current = node)}
-          style={[styles.input, {width: width || wp('90%')}]}
+          style={[styles.input, {width: width || wp('84%')}]}
         />
         <TouchableOpacity
           onPress={handleSecureEntry}
