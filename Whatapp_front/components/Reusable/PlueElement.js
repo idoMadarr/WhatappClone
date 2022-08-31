@@ -1,17 +1,21 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
 
 // Style
 import PlusIcon from '../../assets/icons/plusIcon.svg';
 import {white, teal, greyish} from '../../assets/palette/pallete.json';
 
-const PlueElement = ({checked, onPress}) => {
+const PlueElement = ({checked, onPress, isLoading}) => {
   return (
     <TouchableOpacity
       onPress={checked ? onPress : null}
       style={[styles.createBotton, {backgroundColor: checked ? teal : greyish}]}
       activeOpacity={0.8}>
-      <PlusIcon style={{color: white}} />
+      {isLoading ? (
+        <ActivityIndicator size={'large'} color={white} />
+      ) : (
+        <PlusIcon style={{color: white}} />
+      )}
     </TouchableOpacity>
   );
 };

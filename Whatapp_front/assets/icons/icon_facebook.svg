@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="34" height="34" viewBox="0 0 40 40">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.972" cy="0.935" r="0.986" gradientTransform="translate(1.016 2.283) rotate(-135.693)" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#2449a6"/>
+      <stop offset="0.61" stop-color="#0c77d8"/>
+      <stop offset="1" stop-color="#0091f4"/>
+    </radialGradient>
+  </defs>
+  <g id="icon_facebook" data-name="icon facebook" transform="translate(-97 -617.47)">
+    <g id="Group_4911" data-name="Group 4911" transform="translate(97 617.47)">
+      <rect id="Rectangle_2578" data-name="Rectangle 2578" width="40" height="40" rx="5" transform="translate(0 0)" fill="url(#radial-gradient)"/>
+      <path id="Path_32743" data-name="Path 32743" d="M598.5-202.225v4.895h-5.64v6.42l5.646.03v14.232h6.935v-14.263h5.176l.985-6.42h-6.161V-201.5c0-1.757.861-3.468,3.621-3.468h2.8v-5.467a34.213,34.213,0,0,0-4.972-.433C601.817-210.867,598.5-207.793,598.5-202.225Z" transform="translate(-582.361 216.648)" fill="#fff" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

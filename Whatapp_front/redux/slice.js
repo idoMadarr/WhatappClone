@@ -21,13 +21,16 @@ export const mainSlice = createSlice({
     clearMessage: state => {
       state.message = null;
     },
+    setSpinner: state => {
+      state.isLoading = true;
+    },
     clearSpinner: state => {
       state.isLoading = false;
     },
   },
 });
 
-export const {setAuth, setMessage, clearMessage, clearSpinner} =
+export const {setAuth, setMessage, clearMessage, setSpinner, clearSpinner} =
   mainSlice.actions;
 
 export default mainSlice.reducer;

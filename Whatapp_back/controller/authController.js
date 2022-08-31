@@ -10,8 +10,7 @@ exports.signUp = async (req, res, _next) => {
   const bodyValidation = bodyCheck(req, res);
   if (bodyValidation === false) return;
 
-  const { username, email, password, gender, country, city, phone, isAdmin } =
-    req.body;
+  const { username, email, password, country, city, phone, isAdmin } = req.body;
 
   const existsUser = await UserModule.findOne({ email });
   if (existsUser) {
@@ -23,7 +22,6 @@ exports.signUp = async (req, res, _next) => {
   const user = await UserModule({
     username,
     email,
-    gender,
     country,
     city,
     phone,
@@ -63,6 +61,20 @@ exports.signIn = async (req, res, _next) => {
   const identifier = { id: userExist._id };
   jwt.sign(identifier, process.env.SECERT, (_error, token) => {
     res.status(200).json({ token, username: userExist.username });
+  });
+};
+
+exports.googleSignIn = async (req, res, next) => {
+  const bodyValidation = bodyCheck(req, res);
+  if (bodyValidation === false) return;
+
+  const { email } = req.body;
+
+  await UserModule.findOneAndUpdate({ email }, { activated: true });
+
+  const identifier = { id: email };
+  jwt.sign(identifier, process.env.SECERT, (_error, token) => {
+    res.status(200).json({ token, username: email });
   });
 };
 

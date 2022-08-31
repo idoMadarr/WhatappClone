@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Image} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {setSpinner} from '../../redux/slice';
 import {signIn} from '../../redux/actions';
 
 // Components
@@ -8,6 +9,7 @@ import TextElement from '../Reusable/TextElement';
 import InputElement from '../Reusable/InputElement';
 import PlueElement from '../Reusable/PlueElement';
 import LinkElement from '../Reusable/LinkElement';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 // Styles
 import PasswordIcon from '../../assets/icons/passwordIcon.svg';
@@ -25,6 +27,8 @@ const initErrorsState = {
 };
 
 const SigninForm = ({signupNavigate}) => {
+  const isLoading = useSelector(state => state.mainSlice.isLoading);
+
   const [formState, setFormState] = useState(initState);
   const [formErrorsState, setFormErrorsState] = useState(initErrorsState);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -66,7 +70,7 @@ const SigninForm = ({signupNavigate}) => {
   const onPlus = () => {
     const isValid = formValidator();
     if (isValid) {
-      console.log(123);
+      dispatch(setSpinner());
       dispatch(signIn(formState));
     }
   };
@@ -101,13 +105,14 @@ const SigninForm = ({signupNavigate}) => {
           <PasswordIcon />
         </InputElement>
       </View>
-      <Image
+      <SocialLogin />
+      {/* <Image
         source={require('../../assets/images/enter-boarding.jpg')}
         resizeMode={'cover'}
         style={styles.image}
-      />
+      /> */}
       <View style={styles.accountContainer}>
-        <PlueElement checked={true} onPress={onPlus} />
+        <PlueElement isLoading={isLoading} checked={true} onPress={onPlus} />
         <LinkElement link={{label: 'Sign up', navigate: signupNavigate}}>
           * Don't have account yet?
         </LinkElement>

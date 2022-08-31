@@ -5,6 +5,7 @@ const {
   signUp,
   verificationCode,
   verifyAccount,
+  googleSignIn,
 } = require('../controller/authController');
 
 const route = express.Router();
@@ -23,7 +24,6 @@ route.post(
     body('username').notEmpty(),
     body('email').isEmail(),
     body('password').isLength({ min: 6, max: 9 }),
-    body('gender', 'Gender is required').notEmpty(),
   ],
   signUp
 );
@@ -33,5 +33,8 @@ route.post('/verification', verificationCode);
 
 // Url: http://localhost:5000/auth/check-verification
 route.post('/check-verification', verifyAccount);
+
+// Url: http://localhost:5000/auth/google-oauth
+route.post('/google-oauth', [body('email').isEmail()], googleSignIn);
 
 module.exports = route;
