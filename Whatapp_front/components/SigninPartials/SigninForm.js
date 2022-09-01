@@ -17,8 +17,8 @@ import {black} from '../../assets/palette/pallete.json';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const initState = {
-  email: '',
-  password: '',
+  email: 'idotest@xtrade.com',
+  password: 'Aa123456',
 };
 
 const initErrorsState = {
@@ -48,14 +48,10 @@ const SigninForm = ({signupNavigate}) => {
     let emailError = null;
     let passwordError = null;
 
-    const passRegex = `^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$`;
-
     if (!email.includes('@') || email.trim() === '')
       emailError = 'Please enter valid email';
-    // if (!new RegExp(passRegex).test(password))
-    //   passwordError =
-    //     'Minimum eight characters, at least one letter and one number';
-
+    if (password.length < 6 || password.length > 9)
+      passwordError = 'Password should be between six to 9 characters long';
     if (emailError || passwordError) {
       setFormErrorsState({
         emailError,

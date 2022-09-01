@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {setAuth} from '../redux/slice';
 
 // Components
 import StatusBarElement from '../components/Reusable/StatusBarElement';
@@ -9,9 +11,16 @@ import TextElement from '../components/Reusable/TextElement';
 import WhatsappLogo from '../assets/icons/whatsapp-logo-lg.svg';
 import {primary, white} from '../assets/palette/pallete.json';
 
+// Utils
+import {getStorage} from '../utils/asyncStorage';
+
 const InitScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
+      const user = await getStorage('user_credentials');
+      if (user) return dispatch(setAuth());
       navigation.navigate('signin-screen');
     }, 2000);
   }, []);

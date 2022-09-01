@@ -14,6 +14,10 @@ export const mainSlice = createSlice({
       state.isAuth = true;
       state.isLoading = false;
     },
+    setLogout: state => {
+      state.isAuth = false;
+      state.isLoading = false;
+    },
     setMessage: (state, action) => {
       state.message = action.payload;
       state.isLoading = false;
@@ -30,7 +34,13 @@ export const mainSlice = createSlice({
   },
 });
 
-export const {setAuth, setMessage, clearMessage, setSpinner, clearSpinner} =
-  mainSlice.actions;
+export const {
+  setAuth,
+  setLogout,
+  setMessage,
+  clearMessage,
+  setSpinner,
+  clearSpinner,
+} = mainSlice.actions;
 
 export default mainSlice.reducer;

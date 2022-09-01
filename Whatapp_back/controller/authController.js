@@ -53,7 +53,7 @@ exports.signIn = async (req, res, _next) => {
     const activationMessage = new Message(
       'Make sure to activate your account',
       401,
-      true
+      { require: 'ACTIVATION_REQUIRED' }
     );
     return res.status(401).json(activationMessage);
   }
@@ -68,9 +68,21 @@ exports.googleSignIn = async (req, res, next) => {
   const bodyValidation = bodyCheck(req, res);
   if (bodyValidation === false) return;
 
-  const { email } = req.body;
+  const { name, email } = req.body;
 
-  await UserModule.findOneAndUpdate({ email }, { activated: true });
+  const userExist = await UserModule.findOne({ email });
+  if (!userExist) {
+    const createUser = await UserModule({
+      username: name,
+      email,
+      country: 'Global',
+      city: 'Global',
+      phone: '000000000',
+      password: 'None',
+      activated: true,
+    });
+    await createUser.save();
+  }
 
   const identifier = { id: email };
   jwt.sign(identifier, process.env.SECERT, (_error, token) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useDispatch} from 'react-redux';
-import {setAuth} from '../../redux/slice';
+import {googleOAuth} from '../../redux/actions';
 
 // Components
 import TextElement from '../Reusable/TextElement';
@@ -27,7 +27,7 @@ const SocialLogin = () => {
         if (hasPlayService) {
           GoogleSignin.signIn()
             .then(userInfo => {
-              dispatch(setAuth());
+              dispatch(googleOAuth(userInfo.user));
               console.log(JSON.stringify(userInfo), 'this?');
             })
             .catch(e => {
@@ -40,15 +40,15 @@ const SocialLogin = () => {
       });
   };
 
-  //   const signOut = async () => {
-  //     try {
-  //       connectOAuth();
+  const signOut = async () => {
+    try {
+      connectOAuth();
 
-  //       await GoogleSignin.signOut();
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+      await GoogleSignin.signOut();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <View style={styles.socialContainer}>
@@ -64,7 +64,7 @@ const SocialLogin = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.social}
-        // onPress={googleSignIn}
+        onPress={signOut}
         activeOpacity={0.6}>
         <FacebookIcon />
         <TextElement customStyle={styles.black}>

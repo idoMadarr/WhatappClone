@@ -58,13 +58,11 @@ const SignupForm = ({onPicker, selectedCountry, signinNavigate}) => {
     let confirmError = null;
     let phoneError = null;
 
-    const passRegex = `^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$`;
     if (username.trim() === '') usernameError = 'Username is required';
     if (!email.includes('@') || email.trim() === '')
       emailError = 'Please enter valid email';
-    // if (!new RegExp(passRegex).test(password))
-    //   passwordError =
-    //     'Minimum eight characters, at least one letter and one number';
+    if (password.length < 6 || password.length > 9)
+      passwordError = 'Password should be between six to 9 characters long';
     if (password !== confirm) confirmError = 'Please check your password';
     if (phone.length < 6 || phone.length > 16) phoneError = 'Invalid phone';
 

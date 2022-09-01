@@ -1,5 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, View, StyleSheet} from 'react-native';
+import {navigate} from '../../utils/rootNavigation';
 
 // Components
 import TextElement from './TextElement';
@@ -10,6 +11,19 @@ import CloseIcon from '../../assets/icons/closeIcon.svg';
 import {white, black, teal} from '../../assets/palette/pallete.json';
 
 const ModalElement = ({message, closeModal}) => {
+  let dispalyButton = null;
+  if (message.action) {
+    dispalyButton = (
+      <ButtonElement
+        title={'Activate'}
+        onPress={null}
+        backgroundColor={teal}
+        titleColor={white}
+        customStyle={styles.button}
+      />
+    );
+  }
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={closeModal} style={styles.closeContainer}>
@@ -18,15 +32,7 @@ const ModalElement = ({message, closeModal}) => {
       <TextElement customStyle={styles.text}>
         {message.errorMessage}
       </TextElement>
-      {message.action && (
-        <ButtonElement
-          title={'Verify'}
-          onPress={() => {}}
-          backgroundColor={teal}
-          titleColor={white}
-          customStyle={styles.button}
-        />
-      )}
+      {dispalyButton}
     </View>
   );
 };
