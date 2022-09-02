@@ -7,10 +7,11 @@ export const setStorage = async (identifier, value) => {
 
 export const getStorage = async identifier => {
   const userCredentials = await AsyncStorage.getItem(identifier);
+  console.log(userCredentials, 'from get!');
   return JSON.parse(userCredentials);
 };
 
 export const clearStorage = () => {
-  const keys = ['user_credentials'];
+  const keys = ['user_credentials', 'temp_pass'];
   AsyncStorage.multiRemove(keys);
 };

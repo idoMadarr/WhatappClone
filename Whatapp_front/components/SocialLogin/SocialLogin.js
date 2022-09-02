@@ -52,6 +52,9 @@ const SocialLogin = () => {
 
   return (
     <View style={styles.socialContainer}>
+      <TextElement customStyle={styles.black}>
+        * Social Verification
+      </TextElement>
       <TouchableOpacity
         style={styles.social}
         onPress={googleSignIn}

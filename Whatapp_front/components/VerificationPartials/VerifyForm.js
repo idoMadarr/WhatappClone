@@ -1,16 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Keyboard,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
 import Animated, {FadeInDown, Layout} from 'react-native-reanimated';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
-import {setAuth} from '../../redux/slice';
-import {verifyMailBox} from '../../redux/actions';
+import {setAuth, setMessage} from '../../redux/slice';
+import {verifyMailBox, activateAccount} from '../../redux/actions';
 
 // Components
 import InputElement from '../Reusable/InputElement';
@@ -20,6 +13,9 @@ import TextElement from '../Reusable/TextElement';
 import ApprovedIcon from '../../assets/icons/approvedIcon.svg';
 import {teal, greyish} from '../../assets/palette/pallete.json';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+
+// Utils
+import {getStorage} from '../../utils/asyncStorage';
 
 const VerifyForm = ({userMailbox}) => {
   const [verificationState, setVerificationState] = useState('');
@@ -34,11 +30,15 @@ const VerifyForm = ({userMailbox}) => {
   }, []);
 
   const onVerify = async () => {
-    const pass = await AsyncStorage.getItem('temp_pass');
+    const pass = await getStorage('temp_pass');
     if (pass === verificationState) {
-      await dispatch(setAuth());
+      return dispatch(activateAccount({userMail: userMailbox}));
     }
-    console.log('NO!');
+    const message = {
+      errorMessage: 'Invalid key, please check your mailbox and try again',
+      action: {press: 'Ok'},
+    };
+    dispatch(setMessage(message));
   };
 
   let displayVerificationInput = (

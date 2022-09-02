@@ -1,4 +1,6 @@
 import React from 'react';
+// import {PermissionsAndroid} from 'react-native';
+// import Contacts from 'react-native-contacts';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 // Screens
@@ -11,6 +13,21 @@ import {primary, white} from '../assets/palette/pallete.json';
 // import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const TopTabNavigation = () => {
+  // PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+  //   title: 'Contacts',
+  //   message: 'This app would like to view your contacts.',
+  //   buttonPositive: 'Please accept bare mortal',
+  // }).then(
+  //   Contacts.getAll()
+  //     .then(contacts => {
+  //       // work with contacts
+  //       console.log(contacts);
+  //     })
+  //     .catch(e => {
+  //       console.log(e);
+  //     }),
+  // );
+
   const tabScreens = [
     {
       label: 'Chats',

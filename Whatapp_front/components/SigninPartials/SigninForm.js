@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {setSpinner} from '../../redux/slice';
 import {signIn} from '../../redux/actions';
@@ -17,8 +17,8 @@ import {black} from '../../assets/palette/pallete.json';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const initState = {
-  email: 'idotest@xtrade.com',
-  password: 'Aa123456',
+  email: '',
+  password: '',
 };
 
 const initErrorsState = {
@@ -102,11 +102,6 @@ const SigninForm = ({signupNavigate}) => {
         </InputElement>
       </View>
       <SocialLogin />
-      {/* <Image
-        source={require('../../assets/images/enter-boarding.jpg')}
-        resizeMode={'cover'}
-        style={styles.image}
-      /> */}
       <View style={styles.accountContainer}>
         <PlueElement isLoading={isLoading} checked={true} onPress={onPlus} />
         <LinkElement link={{label: 'Sign up', navigate: signupNavigate}}>

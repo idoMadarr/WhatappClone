@@ -16,7 +16,7 @@ import VerificationScreen from '../screens/VerificationScreen';
 import InitScreen from '../screens/InitScreen';
 import ModalElement from '../components/Reusable/ModalElement';
 import {Modalize} from 'react-native-modalize';
-// import AppHeader from '../components/AppHader/AppHeader';
+import AppHeader from '../components/AppHader/AppHeader';
 
 const AppNavigation = () => {
   const AppNavigator = createNativeStackNavigator();
@@ -38,10 +38,14 @@ const AppNavigation = () => {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <AppNavigator.Navigator
-        screenOptions={{headerShown: false /* header: () => <AppHeader /> */}}>
+      <AppNavigator.Navigator screenOptions={{headerShown: false}}>
         {isAuth ? (
-          <AppNavigator.Group>
+          <AppNavigator.Group
+            screenOptions={{
+              animation: 'flip',
+              headerShown: true,
+              header: () => <AppHeader />,
+            }}>
             <AppNavigator.Screen name={'main'} component={TopTabNavigation} />
           </AppNavigator.Group>
         ) : (

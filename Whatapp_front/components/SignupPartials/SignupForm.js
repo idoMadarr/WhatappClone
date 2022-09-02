@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, KeyboardAvoidingView, ScrollView} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {setSpinner} from '../../redux/slice';
 import {signUp} from '../../redux/actions';
 
 // Components
@@ -13,7 +14,7 @@ import PlueElement from '../Reusable/PlueElement';
 
 // Styles
 import PasswordIcon from '../../assets/icons/passwordIcon.svg';
-import {teal, white, greyish} from '../../assets/palette/pallete.json';
+import {teal} from '../../assets/palette/pallete.json';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const initState = {
@@ -33,6 +34,8 @@ const initErrorsState = {
 };
 
 const SignupForm = ({onPicker, selectedCountry, signinNavigate}) => {
+  const isLoading = useSelector(state => state.mainSlice.isLoading);
+
   const [formState, setFormState] = useState(initState);
   const [formErrorsState, setFormErrorsState] = useState(initErrorsState);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -95,6 +98,7 @@ const SignupForm = ({onPicker, selectedCountry, signinNavigate}) => {
         ...formState,
         country: selectedCountry.countryName,
       };
+      dispatch(setSpinner());
       dispatch(signUp(formCredentials));
     }
   };
@@ -177,7 +181,7 @@ const SignupForm = ({onPicker, selectedCountry, signinNavigate}) => {
         </View>
       </ScrollView>
       <View style={styles.formContainer}>
-        <PlueElement checked={checked} onPress={onPlus} />
+        <PlueElement isLoading={isLoading} checked={checked} onPress={onPlus} />
         <View style={styles.alreadyContainer}>
           <LinkElement link={{label: 'Sign in', navigate: signinNavigate}}>
             * Already have an account?

@@ -3,7 +3,7 @@ import {StyleSheet, SafeAreaView} from 'react-native';
 
 // Components
 import StatusBarElement from '../components/Reusable/StatusBarElement';
-import VerifyForm from '../components/SignupPartials/VerifyForm';
+import VerifyForm from '../components/VerificationPartials/VerifyForm';
 
 // Styles
 import {white} from '../assets/palette/pallete.json';

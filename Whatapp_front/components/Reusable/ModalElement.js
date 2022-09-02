@@ -10,13 +10,23 @@ import ButtonElement from './ButtonElement';
 import CloseIcon from '../../assets/icons/closeIcon.svg';
 import {white, black, teal} from '../../assets/palette/pallete.json';
 
+// Action Types
+import {ACTIVATION_REQUIRED} from '../../fixtures/actionTypes.json';
+
 const ModalElement = ({message, closeModal}) => {
+  const onButtonElement = () => {
+    closeModal();
+    if (message.action.require === ACTIVATION_REQUIRED) {
+      navigate('verification-screen', {email: message.action.user});
+    }
+  };
+
   let dispalyButton = null;
   if (message.action) {
     dispalyButton = (
       <ButtonElement
-        title={'Activate'}
-        onPress={null}
+        title={message.action.press}
+        onPress={onButtonElement}
         backgroundColor={teal}
         titleColor={white}
         customStyle={styles.button}

@@ -21,6 +21,13 @@ export const verifyMailBox =
     dispatch(clearSpinner());
   };
 
+export const activateAccount = state => async dispatch => {
+  const data = await axios.post(`${URL}auth/account-verification`, state);
+  if (data === false) return;
+
+  dispatch(setAuth());
+};
+
 export const signUp = state => async () => {
   const data = await axios.post(`${URL}auth/sign-up`, state);
   if (data === false) return;
