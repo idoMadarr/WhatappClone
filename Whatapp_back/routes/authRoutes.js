@@ -29,10 +29,10 @@ route.post(
 );
 
 // Url: http://localhost:5000/auth/verification
-route.post('/verification', verificationCode);
+route.post('/verification', [body('email').isEmail()], verificationCode);
 
-// Url: http://localhost:5000/auth/check-verification
-route.post('/check-verification', verifyAccount);
+// Url: http://localhost:5000/auth/account-verification
+route.post('/account-verification', [body('email').isEmail()], verifyAccount);
 
 // Url: http://localhost:5000/auth/google-oauth
 route.post('/google-oauth', [body('email').isEmail()], googleSignIn);

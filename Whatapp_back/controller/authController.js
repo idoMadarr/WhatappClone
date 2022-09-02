@@ -6,6 +6,9 @@ const transporter = require('../services/nodemailer');
 const bodyCheck = require('../utils/bodyCheck');
 const Message = require('../modules/Message');
 
+// Action Types
+const { ACTIVATION_REQUIRED } = require('../constants/actionTypes.json');
+
 exports.signUp = async (req, res, _next) => {
   const bodyValidation = bodyCheck(req, res);
   if (bodyValidation === false) return;
@@ -53,7 +56,7 @@ exports.signIn = async (req, res, _next) => {
     const activationMessage = new Message(
       'Make sure to activate your account',
       401,
-      { require: 'ACTIVATION_REQUIRED' }
+      { require: ACTIVATION_REQUIRED, user: email, press: 'Active' }
     );
     return res.status(401).json(activationMessage);
   }
@@ -91,6 +94,9 @@ exports.googleSignIn = async (req, res, next) => {
 };
 
 exports.verificationCode = async (req, res, next) => {
+  const bodyValidation = bodyCheck(req, res);
+  if (bodyValidation === false) return;
+
   const { userMail } = req.body;
   const secretPass = generateCodeVerification();
 
@@ -112,13 +118,15 @@ exports.verificationCode = async (req, res, next) => {
 };
 
 exports.verifyAccount = async (req, res, next) => {
+  const bodyValidation = bodyCheck(req, res);
+  if (bodyValidation === false) return;
+
   const { userMail } = req.body;
 
   await UserModule.findOneAndUpdate({ email: userMail }, { activated: true });
 
   const message = new Message(
-    `Congratulations ${userMail}, your account activation has been initiated`,
-    200
+    `Congratulations ${userMail}, your account activation has been initiated`
   );
   res.status(200).json(message);
 };
