@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {View, StyleSheet, SafeAreaView} from 'react-native';
 
 // Components
 import StatusBarElement from '../components/Reusable/StatusBarElement';
-import LinkElement from '../components/Reusable/LinkElement';
 import SigninForm from '../components/SigninPartials/SigninForm';
 
 // Styles

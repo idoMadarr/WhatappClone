@@ -5,10 +5,10 @@ import * as Domains from '../fixtures/domain.json';
 
 // Utils
 import {navigate} from '../utils/rootNavigation';
-import {setStorage, clearStorage} from '../utils/asyncStorage';
+import {setStorage, clearStorage, getStorage} from '../utils/asyncStorage';
 import {connectOAuth} from '../utils/connectOAuth';
 
-const URL = Domains.LocalHost;
+const URL = Domains.EmulatorHost;
 
 export const verifyMailBox =
   (userMail, setVerificationMode) => async dispatch => {
@@ -25,6 +25,9 @@ export const activateAccount = state => async dispatch => {
   const data = await axios.post(`${URL}auth/account-verification`, state);
   if (data === false) return;
 
+  let user = await getStorage('user_credentials');
+  user.activated = true;
+  setStorage('user_credentials', user);
   dispatch(setAuth());
 };
 

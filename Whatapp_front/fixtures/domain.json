@@ -1,4 +1,5 @@
 {
-  "LocalHost": "http://10.0.2.2:5000/",
-  "Device": "http://172.18.48.1:5000/"
+  "LocalHost": "http://localhost:5000/",
+  "Device": "https://172.23.0.1:5000/",
+  "EmulatorHost": "http://10.0.2.2:5000/"
 }

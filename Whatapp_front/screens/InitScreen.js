@@ -20,7 +20,9 @@ const InitScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(async () => {
       const user = await getStorage('user_credentials');
-      if (user) return dispatch(setAuth());
+      if (user && user.activated === true) {
+        return dispatch(setAuth());
+      }
       navigation.navigate('signin-screen');
     }, 2000);
   }, []);

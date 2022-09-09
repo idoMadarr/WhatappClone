@@ -35,7 +35,7 @@ exports.signUp = async (req, res, _next) => {
 
   const identifier = { id: user._id };
   jwt.sign(identifier, process.env.SECERT, (_error, token) =>
-    res.status(200).json({ token, username })
+    res.status(200).json({ token, username, activated: false })
   );
 };
 
@@ -109,7 +109,7 @@ exports.verificationCode = async (req, res, next) => {
   };
 
   transporter.sendMail(mailContent, (err, _info) => {
-    if (err) return next();
+    if (err) return console.log(err, '?!?!');
     res.status(200).json({
       message: `Please check your mailbox for verifying your account `,
       pass: secretPass,

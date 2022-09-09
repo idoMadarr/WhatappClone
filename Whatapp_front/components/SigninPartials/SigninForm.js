@@ -17,8 +17,8 @@ import {black} from '../../assets/palette/pallete.json';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const initState = {
-  email: '',
-  password: '',
+  email: 'Idox2x@gmail.com',
+  password: 'Aa123456',
 };
 
 const initErrorsState = {

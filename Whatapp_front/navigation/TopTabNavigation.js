@@ -1,7 +1,6 @@
-import React from 'react';
-// import {PermissionsAndroid} from 'react-native';
-// import Contacts from 'react-native-contacts';
+import React, {useEffect} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {io} from 'socket.io-client';
 
 // Screens
 import ContactsScreen from '../screens/ContactsScreen';
@@ -12,22 +11,23 @@ import CallsScreen from '../screens/CallsScreen';
 import {primary, white} from '../assets/palette/pallete.json';
 // import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-const TopTabNavigation = () => {
-  // PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-  //   title: 'Contacts',
-  //   message: 'This app would like to view your contacts.',
-  //   buttonPositive: 'Please accept bare mortal',
-  // }).then(
-  //   Contacts.getAll()
-  //     .then(contacts => {
-  //       // work with contacts
-  //       console.log(contacts);
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     }),
-  // );
+// Fixtures
+import * as Domains from '../fixtures/domain.json';
 
+const TopTabNavigation = () => {
+  const URL = Domains.EmulatorHost;
+
+  useEffect(() => {
+    const initSocketIO = async () => {
+      const socket = io(URL);
+      socket.on('status', socketData => {
+        console.log(socketData, 'this come from the server!');
+      });
+    };
+    initSocketIO();
+  }, []);
+
+  // const socket = io();
   const tabScreens = [
     {
       label: 'Chats',
