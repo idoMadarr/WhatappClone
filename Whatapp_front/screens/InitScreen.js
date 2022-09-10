@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {setAuth} from '../redux/slice';
+import {autoSignIn} from '../redux/actions';
 
 // Components
 import StatusBarElement from '../components/Reusable/StatusBarElement';
@@ -21,7 +21,12 @@ const InitScreen = ({navigation}) => {
     setTimeout(async () => {
       const user = await getStorage('user_credentials');
       if (user && user.activated === true) {
-        return dispatch(setAuth());
+        const userCredentials = {
+          email: user.email,
+          username: user.username,
+          token: user.token,
+        };
+        return dispatch(autoSignIn(userCredentials));
       }
       navigation.navigate('signin-screen');
     }, 2000);

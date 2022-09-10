@@ -6,7 +6,9 @@ const {
   verificationCode,
   verifyAccount,
   googleSignIn,
+  autoSignIn,
 } = require('../controller/authController');
+const isAuth = require('../utils/isAuth');
 
 const route = express.Router();
 
@@ -15,6 +17,14 @@ route.post(
   '/sign-in',
   [body('email').isEmail(), body('password').isLength({ min: 6, max: 9 })],
   signIn
+);
+
+// Url: http://localhost:5000/auth/auto-sign-in
+route.post(
+  '/auto-sign-in',
+  [isAuth],
+  // [body('email').isEmail(), body('password').isLength({ min: 6, max: 9 })],
+  autoSignIn
 );
 
 // Url: http://localhost:5000/auth/sign-up

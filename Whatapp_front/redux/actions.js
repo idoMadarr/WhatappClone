@@ -47,6 +47,18 @@ export const signIn = state => async dispatch => {
   dispatch(setAuth());
 };
 
+export const autoSignIn = state => async dispatch => {
+  const data = await axios.post(`${URL}auth/auto-sign-in`, state, {
+    headers: {
+      Authentication: `Bearer ${state.token}`,
+    },
+  });
+  if (data === false) return;
+
+  setStorage('user_credentials', data);
+  dispatch(setAuth());
+};
+
 export const googleOAuth = state => async dispatch => {
   const data = await axios.post(`${URL}auth/google-oauth`, state);
   console.log(data, 'C');
@@ -56,9 +68,11 @@ export const googleOAuth = state => async dispatch => {
   dispatch(setAuth());
 };
 
-export const logout = () => async dispatch => {
+export const logout = () => async (dispatch, getState) => {
   await clearStorage();
-  connectOAuth();
-  await GoogleSignin.signOut();
+  // connectOAuth();
+  // await GoogleSignin.signOut();
+  // const {socketIO} = getState().mainSlice;
+  // await socketIO.disconnect();
   dispatch(setLogout());
 };

@@ -3,10 +3,11 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from '../utils/rootNavigation';
 import TopTabNavigation from './TopTabNavigation';
+import SocketIO from 'socket.io-client';
 
 // Redux
 import {useSelector, useDispatch} from 'react-redux';
-import {clearMessage} from '../redux/slice';
+import {clearMessage, setSocketIO} from '../redux/slice';
 
 // Components
 import AuthHeader from '../components/AppHader/AuthHeader';
@@ -18,13 +19,27 @@ import ModalElement from '../components/Reusable/ModalElement';
 import {Modalize} from 'react-native-modalize';
 import AppHeader from '../components/AppHader/AppHeader';
 
+// Fixtures
+import * as Domains from '../fixtures/domain.json';
+
 const AppNavigation = () => {
+  const URL = Domains.EmulatorHost;
   const AppNavigator = createNativeStackNavigator();
 
   const isAuth = useSelector(state => state.mainSlice.isAuth);
   const message = useSelector(state => state.mainSlice.message);
   const modalizeRef = useRef();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const initSocketIO = async () => {
+      const socketConnection = SocketIO(URL);
+      socketConnection.on('user', data => {
+        console.log(data, 'HA!');
+      });
+    };
+    initSocketIO();
+  }, []);
 
   useEffect(() => {
     if (message) {

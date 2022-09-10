@@ -5,6 +5,7 @@ const generateCodeVerification = require('../utils/codeVerification');
 const transporter = require('../services/nodemailer');
 const bodyCheck = require('../utils/bodyCheck');
 const Message = require('../modules/Message');
+const { getIO } = require('../services/socket');
 
 // Action Types
 const { ACTIVATION_REQUIRED } = require('../constants/actionTypes.json');
@@ -35,7 +36,7 @@ exports.signUp = async (req, res, _next) => {
 
   const identifier = { id: user._id };
   jwt.sign(identifier, process.env.SECERT, (_error, token) =>
-    res.status(200).json({ token, username, activated: false })
+    res.status(200).json({ token, username, activated: false, email })
   );
 };
 
@@ -63,8 +64,18 @@ exports.signIn = async (req, res, _next) => {
 
   const identifier = { id: userExist._id };
   jwt.sign(identifier, process.env.SECERT, (_error, token) => {
-    res.status(200).json({ token, username: userExist.username });
+    getIO().emit('user', { message: `${email} has logged in`, email });
+    res
+      .status(200)
+      .json({ token, username: userExist.username, activated: true, email });
   });
+};
+
+exports.autoSignIn = async (req, res, next) => {
+  const { token, username, email } = req.body;
+
+  getIO().emit('user', { message: `${email} has logged in`, email });
+  res.status(200).json({ token, username, activated: true, email });
 };
 
 exports.googleSignIn = async (req, res, next) => {
@@ -89,7 +100,7 @@ exports.googleSignIn = async (req, res, next) => {
 
   const identifier = { id: email };
   jwt.sign(identifier, process.env.SECERT, (_error, token) => {
-    res.status(200).json({ token, username: email });
+    res.status(200).json({ token, username: name, activated: false, email });
   });
 };
 

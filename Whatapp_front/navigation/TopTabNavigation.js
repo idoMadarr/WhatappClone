@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {io} from 'socket.io-client';
 
 // Screens
 import ContactsScreen from '../screens/ContactsScreen';
@@ -9,25 +8,8 @@ import CallsScreen from '../screens/CallsScreen';
 
 // Styles
 import {primary, white} from '../assets/palette/pallete.json';
-// import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-
-// Fixtures
-import * as Domains from '../fixtures/domain.json';
 
 const TopTabNavigation = () => {
-  const URL = Domains.EmulatorHost;
-
-  useEffect(() => {
-    const initSocketIO = async () => {
-      const socket = io(URL);
-      socket.on('status', socketData => {
-        console.log(socketData, 'this come from the server!');
-      });
-    };
-    initSocketIO();
-  }, []);
-
-  // const socket = io();
   const tabScreens = [
     {
       label: 'Chats',
