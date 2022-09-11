@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {logout} from '../redux/actions';
 
 // Components
@@ -13,11 +13,13 @@ import {primary} from '../assets/palette/pallete.json';
 const CallsScreen = () => {
   const dispatch = useDispatch();
 
+  const {email} = useSelector(state => state.mainSlice.user);
+
   return (
     <View>
       <StatusBarElement barStyle={'light-content'} backgroundColor={primary} />
       <TextElement>CallsScreen</TextElement>
-      <TouchableOpacity onPress={() => dispatch(logout())}>
+      <TouchableOpacity onPress={() => dispatch(logout({email}))}>
         <TextElement>Logout</TextElement>
       </TouchableOpacity>
     </View>

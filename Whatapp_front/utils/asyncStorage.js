@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const setStorage = async (identifier, value) => {
-  console.log(value);
   await AsyncStorage.setItem(identifier, JSON.stringify(value));
 };
 

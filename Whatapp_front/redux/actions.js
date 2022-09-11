@@ -44,7 +44,7 @@ export const signIn = state => async dispatch => {
   if (data === false) return;
 
   setStorage('user_credentials', data);
-  dispatch(setAuth());
+  dispatch(setAuth(data));
 };
 
 export const autoSignIn = state => async dispatch => {
@@ -55,24 +55,24 @@ export const autoSignIn = state => async dispatch => {
   });
   if (data === false) return;
 
-  setStorage('user_credentials', data);
-  dispatch(setAuth());
+  await setStorage('user_credentials', data);
+  dispatch(setAuth(state));
 };
 
 export const googleOAuth = state => async dispatch => {
   const data = await axios.post(`${URL}auth/google-oauth`, state);
-  console.log(data, 'C');
   if (data === false) return;
 
   setStorage('user_credentials', data);
   dispatch(setAuth());
 };
 
-export const logout = () => async (dispatch, getState) => {
+export const logout = state => async dispatch => {
+  const data = await axios.post(`${URL}auth/logout`, state);
+  if (data === false) return;
+
   await clearStorage();
   // connectOAuth();
   // await GoogleSignin.signOut();
-  // const {socketIO} = getState().mainSlice;
-  // await socketIO.disconnect();
   dispatch(setLogout());
 };

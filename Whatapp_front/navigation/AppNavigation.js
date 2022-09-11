@@ -7,7 +7,11 @@ import SocketIO from 'socket.io-client';
 
 // Redux
 import {useSelector, useDispatch} from 'react-redux';
-import {clearMessage, setSocketIO} from '../redux/slice';
+import {
+  clearMessage,
+  setActiveClients,
+  clearActiveClient,
+} from '../redux/slice';
 
 // Components
 import AuthHeader from '../components/AppHader/AuthHeader';
@@ -34,8 +38,11 @@ const AppNavigation = () => {
   useEffect(() => {
     const initSocketIO = async () => {
       const socketConnection = SocketIO(URL);
+      socketConnection.on('logout', data => {
+        dispatch(clearActiveClient(data));
+      });
       socketConnection.on('user', data => {
-        console.log(data, 'HA!');
+        dispatch(setActiveClients(data));
       });
     };
     initSocketIO();

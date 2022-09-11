@@ -74,7 +74,10 @@ exports.signIn = async (req, res, _next) => {
 exports.autoSignIn = async (req, res, next) => {
   const { token, username, email } = req.body;
 
-  getIO().emit('user', { message: `${email} has logged in`, email });
+  getIO().emit('user', {
+    message: `${email} has logged in`,
+    email,
+  });
   res.status(200).json({ token, username, activated: true, email });
 };
 
@@ -140,4 +143,10 @@ exports.verifyAccount = async (req, res, next) => {
     `Congratulations ${userMail}, your account activation has been initiated`
   );
   res.status(200).json(message);
+};
+
+exports.logout = async (req, res, next) => {
+  const { email } = req.body;
+  getIO().emit('logout', { email });
+  res.status(200).json({ email });
 };

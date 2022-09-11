@@ -7,6 +7,7 @@ const {
   verifyAccount,
   googleSignIn,
   autoSignIn,
+  logout,
 } = require('../controller/authController');
 const isAuth = require('../utils/isAuth');
 
@@ -50,5 +51,8 @@ route.post(
 
 // Url: http://localhost:5000/auth/google-oauth
 route.post('/google-oauth', [body('email').isEmail()], googleSignIn);
+
+// Url: http://localhost:5000/auth/logout
+route.post('/logout', logout);
 
 module.exports = route;
