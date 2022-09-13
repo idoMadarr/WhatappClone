@@ -11,6 +11,7 @@ const ContanctItem = ({contact}) => {
   return (
     <View style={styles.contactContainer}>
       <TextElement>{contact.email}</TextElement>
+      <TextElement>{contact.username}</TextElement>
     </View>
   );
 };

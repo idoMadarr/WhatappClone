@@ -6,6 +6,7 @@ const transporter = require('../services/nodemailer');
 const bodyCheck = require('../utils/bodyCheck');
 const Message = require('../modules/Message');
 const { getIO } = require('../services/socket');
+// const { redis } = require('../services/redis');
 
 // Action Types
 const { ACTIVATION_REQUIRED } = require('../constants/actionTypes.json');
@@ -74,9 +75,15 @@ exports.signIn = async (req, res, _next) => {
 exports.autoSignIn = async (req, res, next) => {
   const { token, username, email } = req.body;
 
+  // redis().setEx('ido', 2000, '31');
+  // await redis().get('ido', (err, data) => {
+  //   console.log(data);
+  // });
+
   getIO().emit('user', {
     message: `${email} has logged in`,
     email,
+    username,
   });
   res.status(200).json({ token, username, activated: true, email });
 };

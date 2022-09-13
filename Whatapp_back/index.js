@@ -27,11 +27,12 @@ app.use((error, _req, res, _next) => {
 
 mongoose
   .connect(URI, {})
-  .then(() => {
+  .then(async () => {
     const server = app.listen(PORT, () =>
       console.log(`Server started on port ${PORT}`)
     );
     const io = require('./services/socket').init(server);
+    await client.connect();
     io.on('connection', socket => {
       console.log('Client connected');
     });

@@ -13,8 +13,8 @@ export const mainSlice = createSlice({
   initialState,
   reducers: {
     setAuth: (state, action) => {
-      state.isAuth = true;
       state.user = action.payload;
+      state.isAuth = true;
       state.isLoading = false;
     },
     setLogout: state => {
