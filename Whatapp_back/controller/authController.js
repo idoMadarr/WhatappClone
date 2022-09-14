@@ -6,7 +6,7 @@ const transporter = require('../services/nodemailer');
 const bodyCheck = require('../utils/bodyCheck');
 const Message = require('../modules/Message');
 const { getIO } = require('../services/socket');
-// const { redis } = require('../services/redis');
+const client = require('../services/redis');
 
 // Action Types
 const { ACTIVATION_REQUIRED } = require('../constants/actionTypes.json');
@@ -75,10 +75,8 @@ exports.signIn = async (req, res, _next) => {
 exports.autoSignIn = async (req, res, next) => {
   const { token, username, email } = req.body;
 
-  // redis().setEx('ido', 2000, '31');
-  // await redis().get('ido', (err, data) => {
-  //   console.log(data);
-  // });
+  const test = await client.get('name');
+  console.log(test);
 
   getIO().emit('user', {
     message: `${email} has logged in`,
@@ -157,3 +155,8 @@ exports.logout = async (req, res, next) => {
   getIO().emit('logout', { email });
   res.status(200).json({ email });
 };
+
+// app.get('/test', async (req, res, next) => {
+//   client.setEx('name', 3600, 'ido adar from redis');
+//   res.status(200).json({ message: 'hello' });
+// });

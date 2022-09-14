@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const client = require('./services/redis');
 
 const mongoose = require('mongoose');
 const Message = require('./modules/Message');
@@ -17,6 +18,7 @@ app.use(cors());
 
 app.use('/auth', authRoutes);
 
+// Error Middleware
 app.use((error, _req, res, _next) => {
   const message = new Message(
     error.message || 'An unknown error occurred',
@@ -28,11 +30,12 @@ app.use((error, _req, res, _next) => {
 mongoose
   .connect(URI, {})
   .then(async () => {
-    const server = app.listen(PORT, () =>
-      console.log(`Server started on port ${PORT}`)
-    );
+    const server = app.listen(PORT, async () => {
+      await client.connect();
+      console.log(`Server started on port ${PORT}`);
+      console.log('Redis connected');
+    });
     const io = require('./services/socket').init(server);
-    await client.connect();
     io.on('connection', socket => {
       console.log('Client connected');
     });
