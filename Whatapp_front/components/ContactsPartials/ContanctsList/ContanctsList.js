@@ -8,7 +8,7 @@ import ContanctItem from '../ContanctItem/ContanctItem';
 // Style
 import {greyish} from '../../../assets/palette/pallete.json';
 
-const ContanctsList = () => {
+const ContanctsList = ({openChat}) => {
   const activeClients = useSelector(state => state.mainSlice.activeClients);
 
   const itemSeparatorComponent = () => <View style={styles.seperator} />;
@@ -17,9 +17,15 @@ const ContanctsList = () => {
     <View style={styles.listContainer}>
       <FlatList
         data={activeClients}
-        keyExtractor={itemData => itemData.email}
+        keyExtractor={itemData => Math.random().toString()}
+        // keyExtractor={itemData => itemData.email}
         ItemSeparatorComponent={itemSeparatorComponent}
-        renderItem={itemData => <ContanctItem contact={itemData.item} />}
+        renderItem={itemData => (
+          <ContanctItem
+            contact={itemData.item}
+            openChat={openChat.bind(this, itemData.item.clientId)}
+          />
+        )}
       />
     </View>
   );

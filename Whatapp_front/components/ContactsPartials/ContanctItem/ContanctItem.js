@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {TouchableOpacity, StyleSheet} from 'react-native';
 
 // Components
 import TextElement from '../../Reusable/TextElement';
@@ -7,12 +7,11 @@ import TextElement from '../../Reusable/TextElement';
 // Style
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-const ContanctItem = ({contact}) => {
+const ContanctItem = ({contact, openChat}) => {
   return (
-    <View style={styles.contactContainer}>
+    <TouchableOpacity onPress={openChat} style={styles.contactContainer}>
       <TextElement>{contact.email}</TextElement>
-      <TextElement>{contact.username}</TextElement>
-    </View>
+    </TouchableOpacity>
   );
 };
 

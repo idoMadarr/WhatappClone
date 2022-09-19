@@ -16,6 +16,9 @@ import PasswordIcon from '../../assets/icons/passwordIcon.svg';
 import {black} from '../../assets/palette/pallete.json';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
+// Utils
+import {getStorage} from '../../utils/asyncStorage';
+
 const initState = {
   email: 'Idox2x@gmail.com',
   password: 'Aa123456',
@@ -63,11 +66,12 @@ const SigninForm = ({signupNavigate}) => {
     return isValid;
   };
 
-  const onPlus = () => {
+  const onPlus = async () => {
     const isValid = formValidator();
     if (isValid) {
       dispatch(setSpinner());
-      dispatch(signIn(formState));
+      const clientId = await getStorage('clientId');
+      dispatch(signIn({...formState, clientId}));
     }
   };
 

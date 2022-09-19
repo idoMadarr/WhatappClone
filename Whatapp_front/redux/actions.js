@@ -76,3 +76,10 @@ export const logout = state => async dispatch => {
   // await GoogleSignin.signOut();
   dispatch(setLogout());
 };
+
+export const sendMessage = state => async (dispatch, getState) => {
+  const io = getState().mainSlice.io;
+  await io.emit('message', state);
+  // const data = await axios.post(`${URL}communicate/${state.clientId}`, state);
+  // if (data === false) return;
+};

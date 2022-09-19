@@ -9,11 +9,13 @@ import ContanctsList from '../components/ContactsPartials/ContanctsList/Contanct
 // Styles
 import {primary} from '../assets/palette/pallete.json';
 
-const ContactsScreen = () => {
+const ContactsScreen = ({navigation}) => {
+  const openChat = recipient => navigation.navigate('chat-screen', {recipient});
+
   return (
     <View>
       <StatusBarElement barStyle={'light-content'} backgroundColor={primary} />
-      <ContanctsList />
+      <ContanctsList openChat={openChat} />
     </View>
   );
 };

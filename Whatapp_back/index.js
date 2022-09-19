@@ -8,6 +8,7 @@ const Message = require('./modules/Message');
 require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
+const communicateRoutes = require('./routes/communicateRoutes');
 
 const PORT = process.env.PORT;
 const URI = process.env.URI;
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/auth', authRoutes);
+app.use('/communicate', communicateRoutes);
 
 // Error Middleware
 app.use((error, _req, res, _next) => {
@@ -33,11 +35,20 @@ mongoose
     const server = app.listen(PORT, async () => {
       await client.connect();
       console.log(`Server started on port ${PORT}`);
-      console.log('Redis connected');
     });
     const io = require('./services/socket').init(server);
     io.on('connection', socket => {
-      console.log('Client connected');
+      const clientId = socket.id;
+      app.set('socket', socket);
+      socket.emit('init', { clientId });
+
+      socket.on('message', ({ message, recipient }) => {
+        socket.to(recipient).emit('received_message', message);
+      });
+
+      socket.on('disconnect', () => {
+        console.log(`disconnecting ${clientId}`);
+      });
     });
   })
   .catch(error => console.log(error));

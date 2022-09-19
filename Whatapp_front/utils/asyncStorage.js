@@ -10,6 +10,6 @@ export const getStorage = async identifier => {
 };
 
 export const clearStorage = () => {
-  const keys = ['user_credentials', 'temp_pass'];
+  const keys = ['user_credentials', 'temp_pass' /* 'clientId' */];
   AsyncStorage.multiRemove(keys);
 };

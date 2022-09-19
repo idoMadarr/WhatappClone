@@ -1,12 +1,20 @@
-const UserModule = require('../modules/UserModule');
+// Main
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const generateCodeVerification = require('../utils/codeVerification');
-const transporter = require('../services/nodemailer');
-const bodyCheck = require('../utils/bodyCheck');
+
+// Modules
+const UserModule = require('../modules/UserModule');
+const OnlineModule = require('../modules/OnlineModule');
 const Message = require('../modules/Message');
+
+// Services
+const transporter = require('../services/nodemailer');
 const { getIO } = require('../services/socket');
 const client = require('../services/redis');
+
+// Utils
+const bodyCheck = require('../utils/bodyCheck');
+const generateCodeVerification = require('../utils/codeVerification');
 
 // Action Types
 const { ACTIVATION_REQUIRED } = require('../constants/actionTypes.json');
@@ -15,7 +23,8 @@ exports.signUp = async (req, res, _next) => {
   const bodyValidation = bodyCheck(req, res);
   if (bodyValidation === false) return;
 
-  const { username, email, password, country, city, phone, isAdmin } = req.body;
+  const { username, email, password, country, city, phone, isAdmin, clientId } =
+    req.body;
 
   const existsUser = await UserModule.findOne({ email });
   if (existsUser) {
@@ -36,16 +45,19 @@ exports.signUp = async (req, res, _next) => {
   await user.save();
 
   const identifier = { id: user._id };
-  jwt.sign(identifier, process.env.SECERT, (_error, token) =>
-    res.status(200).json({ token, username, activated: false, email })
-  );
+  jwt.sign(identifier, process.env.SECERT, async (_error, token) => {
+    const setActive = await OnlineModule({ email, clientId, online: true });
+    await setActive.save();
+    res.status(200).json({ token, username, activated: false, email });
+  });
 };
 
 exports.signIn = async (req, res, _next) => {
   const bodyValidation = bodyCheck(req, res);
   if (bodyValidation === false) return;
 
-  const { email, password } = req.body;
+  const { email, password, clientId } = req.body;
+  const socket = req.app.get('socket');
   const message = new Message('Please check your email and password', 401);
 
   const userExist = await UserModule.findOne({ email });
@@ -63,9 +75,29 @@ exports.signIn = async (req, res, _next) => {
     return res.status(401).json(activationMessage);
   }
 
+  const userOnline = await OnlineModule.findOne({ email });
+
+  if (userOnline) {
+    console.log(userOnline, 'userOnline');
+    // await OnlineModule.findOneAndUpdate(
+    //   { clientId: userOnline.clientId },
+    //   { clientId: clientId }
+    // );
+    await socket.broadcast
+      .to(userOnline.clientId)
+      .emit('session_timeout', email);
+  } else {
+    const setActive = await OnlineModule({ email, clientId, online: true });
+    await setActive.save();
+  }
+
   const identifier = { id: userExist._id };
-  jwt.sign(identifier, process.env.SECERT, (_error, token) => {
-    getIO().emit('user', { message: `${email} has logged in`, email });
+  jwt.sign(identifier, process.env.SECERT, async (_error, token) => {
+    getIO().emit('user', {
+      email,
+      clientId,
+      message: `${email} has logged in`,
+    });
     res
       .status(200)
       .json({ token, username: userExist.username, activated: true, email });
@@ -73,15 +105,23 @@ exports.signIn = async (req, res, _next) => {
 };
 
 exports.autoSignIn = async (req, res, next) => {
-  const { token, username, email } = req.body;
+  const { token, username, email, clientId } = req.body;
+  // console.log(clientId);
+  await OnlineModule.findOneAndUpdate(
+    { email },
+    { email, clientId, online: true }
+  );
+  // const userOnline = await OnlineModule.findOne({ email });
 
-  const test = await client.get('name');
-  console.log(test);
+  // if (userOnline) {
+  // await socket.broadcast.to(isOnline.clientId).emit('session_timeout', email);
+  // console.log('here');
+  // }
 
   getIO().emit('user', {
-    message: `${email} has logged in`,
     email,
-    username,
+    clientId,
+    message: `${email} has logged in`,
   });
   res.status(200).json({ token, username, activated: true, email });
 };
@@ -151,12 +191,8 @@ exports.verifyAccount = async (req, res, next) => {
 };
 
 exports.logout = async (req, res, next) => {
-  const { email } = req.body;
+  const { email, clientId } = req.body;
+  await OnlineModule.findOneAndRemove({ clientId });
   getIO().emit('logout', { email });
   res.status(200).json({ email });
 };
-
-// app.get('/test', async (req, res, next) => {
-//   client.setEx('name', 3600, 'ido adar from redis');
-//   res.status(200).json({ message: 'hello' });
-// });

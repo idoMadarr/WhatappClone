@@ -20,11 +20,13 @@ const InitScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(async () => {
       const user = await getStorage('user_credentials');
+      const clientId = await getStorage('clientId');
       if (user && user.activated === true) {
         const userCredentials = {
           email: user.email,
           username: user.username,
           token: user.token,
+          clientId,
         };
         return dispatch(autoSignIn(userCredentials));
       }

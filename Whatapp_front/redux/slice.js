@@ -4,6 +4,7 @@ const initialState = {
   isAuth: false,
   user: null,
   message: null,
+  io: null,
   activeClients: [],
   isLoading: false,
 };
@@ -29,7 +30,12 @@ export const mainSlice = createSlice({
       state.message = null;
     },
     setActiveClients: (state, action) => {
-      state.activeClients.push(action.payload);
+      console.log(action.payload);
+      const userSocket = {
+        email: action.payload.email,
+        clientId: action.payload.clientId,
+      };
+      state.activeClients.push(userSocket);
     },
     clearActiveClient: (state, action) => {
       const email = action.payload.email;
@@ -43,6 +49,9 @@ export const mainSlice = createSlice({
     clearSpinner: state => {
       state.isLoading = false;
     },
+    setSocket: (state, action) => {
+      state.io = action.payload;
+    },
   },
 });
 
@@ -55,6 +64,7 @@ export const {
   clearActiveClient,
   setSpinner,
   clearSpinner,
+  setSocket,
 } = mainSlice.actions;
 
 export default mainSlice.reducer;

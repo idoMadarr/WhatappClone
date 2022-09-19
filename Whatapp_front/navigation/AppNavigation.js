@@ -11,7 +11,9 @@ import {
   clearMessage,
   setActiveClients,
   clearActiveClient,
+  setSocket,
 } from '../redux/slice';
+import {logout} from '../redux/actions';
 
 // Components
 import AuthHeader from '../components/AppHader/AuthHeader';
@@ -22,9 +24,13 @@ import InitScreen from '../screens/InitScreen';
 import ModalElement from '../components/Reusable/ModalElement';
 import {Modalize} from 'react-native-modalize';
 import AppHeader from '../components/AppHader/AppHeader';
+import ChatScreen from '../screens/ChatScreen';
 
 // Fixtures
 import * as Domains from '../fixtures/domain.json';
+
+// Utils
+import {getStorage, setStorage} from '../utils/asyncStorage';
 
 const AppNavigation = () => {
   const URL = Domains.EmulatorHost;
@@ -38,11 +44,24 @@ const AppNavigation = () => {
   useEffect(() => {
     const initSocketIO = async () => {
       const socketConnection = SocketIO(URL);
-      socketConnection.on('logout', data => {
-        dispatch(clearActiveClient(data));
+      dispatch(setSocket(socketConnection));
+      const clientId = await getStorage('clientId');
+
+      socketConnection.on('init', async data => {
+        setStorage('clientId', data.clientId);
       });
       socketConnection.on('user', data => {
         dispatch(setActiveClients(data));
+      });
+      socketConnection.on('logout', data => {
+        dispatch(clearActiveClient(data));
+      });
+      socketConnection.on('session_timeout', data => {
+        console.log('session time out', email);
+        dispatch(logout({email, clientId}));
+      });
+      socketConnection.on('received_message', data => {
+        console.log('received_message!!!!', data);
       });
     };
     initSocketIO();
@@ -69,6 +88,7 @@ const AppNavigation = () => {
               header: () => <AppHeader />,
             }}>
             <AppNavigator.Screen name={'main'} component={TopTabNavigation} />
+            <AppNavigator.Screen name={'chat-screen'} component={ChatScreen} />
           </AppNavigator.Group>
         ) : (
           <AppNavigator.Group
