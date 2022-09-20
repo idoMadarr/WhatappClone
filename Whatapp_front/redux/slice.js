@@ -5,6 +5,7 @@ const initialState = {
   user: null,
   message: null,
   io: null,
+  selectedUser: {},
   activeClients: [],
   isLoading: false,
 };
@@ -43,6 +44,9 @@ export const mainSlice = createSlice({
         user => user.email !== email,
       );
     },
+    setSelectedUser: (state, action) => {
+      state.selectedUser = action.payload;
+    },
     setSpinner: state => {
       state.isLoading = true;
     },
@@ -62,6 +66,7 @@ export const {
   clearMessage,
   setActiveClients,
   clearActiveClient,
+  setSelectedUser,
   setSpinner,
   clearSpinner,
   setSocket,

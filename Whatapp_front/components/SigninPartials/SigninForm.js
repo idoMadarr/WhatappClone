@@ -7,13 +7,14 @@ import {signIn} from '../../redux/actions';
 // Components
 import TextElement from '../Reusable/TextElement';
 import InputElement from '../Reusable/InputElement';
-import PlueElement from '../Reusable/PlueElement';
+import PressableCircleElement from '../Reusable/PressableCircleElement';
 import LinkElement from '../Reusable/LinkElement';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
 // Styles
 import PasswordIcon from '../../assets/icons/passwordIcon.svg';
-import {black} from '../../assets/palette/pallete.json';
+import PlusIcon from '../../assets/icons/plusIcon.svg';
+import {black, white} from '../../assets/palette/pallete.json';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 // Utils
@@ -107,7 +108,12 @@ const SigninForm = ({signupNavigate}) => {
       </View>
       <SocialLogin />
       <View style={styles.accountContainer}>
-        <PlueElement isLoading={isLoading} checked={true} onPress={onPlus} />
+        <PressableCircleElement
+          isLoading={isLoading}
+          checked={true}
+          onPress={onPlus}>
+          <PlusIcon style={{color: white}} />
+        </PressableCircleElement>
         <LinkElement link={{label: 'Sign up', navigate: signupNavigate}}>
           * Don't have account yet?
         </LinkElement>

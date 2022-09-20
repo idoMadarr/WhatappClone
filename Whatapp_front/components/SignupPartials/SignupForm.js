@@ -10,11 +10,12 @@ import InputElement from '../Reusable/InputElement';
 import InputPickerElement from '../Reusable/InputPickerElement';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import LinkElement from '../Reusable/LinkElement';
-import PlueElement from '../Reusable/PlueElement';
+import PressableCircleElement from '../Reusable/PressableCircleElement';
 
 // Styles
 import PasswordIcon from '../../assets/icons/passwordIcon.svg';
-import {teal} from '../../assets/palette/pallete.json';
+import PlusIcon from '../../assets/icons/plusIcon.svg';
+import {teal, white} from '../../assets/palette/pallete.json';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const initState = {
@@ -181,7 +182,12 @@ const SignupForm = ({onPicker, selectedCountry, signinNavigate}) => {
         </View>
       </ScrollView>
       <View style={styles.formContainer}>
-        <PlueElement isLoading={isLoading} checked={checked} onPress={onPlus} />
+        <PressableCircleElement
+          isLoading={isLoading}
+          checked={checked}
+          onPress={onPlus}>
+          <PlusIcon style={{color: white}} />
+        </PressableCircleElement>
         <View style={styles.alreadyContainer}>
           <LinkElement link={{label: 'Sign in', navigate: signinNavigate}}>
             * Already have an account?

@@ -1,20 +1,28 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
 
 // Style
-import PlusIcon from '../../assets/icons/plusIcon.svg';
 import {white, teal, greyish} from '../../assets/palette/pallete.json';
 
-const PlueElement = ({checked, onPress, isLoading}) => {
+const PressableCircleElement = ({
+  checked,
+  onPress,
+  isLoading,
+  customStyle,
+  children,
+}) => {
   return (
     <TouchableOpacity
       onPress={checked ? onPress : null}
-      style={[styles.createBotton, {backgroundColor: checked ? teal : greyish}]}
+      style={[
+        styles.createBotton,
+        {backgroundColor: checked ? teal : greyish, ...customStyle},
+      ]}
       activeOpacity={0.8}>
       {isLoading ? (
         <ActivityIndicator size={'large'} color={white} />
       ) : (
-        <PlusIcon style={{color: white}} />
+        <Fragment>{children}</Fragment>
       )}
     </TouchableOpacity>
   );
@@ -34,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlueElement;
+export default PressableCircleElement;

@@ -23,7 +23,7 @@ const ContanctsList = ({openChat}) => {
         renderItem={itemData => (
           <ContanctItem
             contact={itemData.item}
-            openChat={openChat.bind(this, itemData.item.clientId)}
+            openChat={openChat.bind(this, itemData.item)}
           />
         )}
       />

@@ -1,0 +1,12 @@
+<svg id="Component_3_1" data-name="Component 3 – 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="46" height="46" viewBox="0 0 52 52">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_138895" data-name="Rectangle 138895" width="52" height="52" transform="translate(0 0)" fill="currentColor"/>
+    </clipPath>
+  </defs>
+  <g id="Group_17131" data-name="Group 17131" transform="translate(0 0)" clip-path="url(#clip-path)">
+    <path id="Path_47542" data-name="Path 47542" d="M251.944,271.887a19.883,19.883,0,1,1,7.763-1.568,19.819,19.819,0,0,1-7.763,1.568m0-38.641a18.7,18.7,0,1,0,18.7,18.7,18.718,18.718,0,0,0-18.7-18.7" transform="translate(-225.975 -225.912)" fill="currentColor"/>
+    <path id="Path_47543" data-name="Path 47543" d="M501.494,1175.794a.624.624,0,0,1-.608-.491,11.352,11.352,0,0,0-11.033-8.876h-2.743a11.352,11.352,0,0,0-11.033,8.876.623.623,0,1,1-1.218-.265,12.441,12.441,0,0,1,1.588-3.919,12.519,12.519,0,0,1,10.663-5.938h2.743a12.541,12.541,0,0,1,12.251,9.857.623.623,0,0,1-.476.742.632.632,0,0,1-.133.014" transform="translate(-462.512 -1134.86)" fill="currentColor"/>
+    <path id="Path_47544" data-name="Path 47544" d="M697.65,608.48a8.061,8.061,0,1,1,5.7-2.361,8.008,8.008,0,0,1-5.7,2.361m0-14.875a6.814,6.814,0,1,0,6.814,6.814,6.822,6.822,0,0,0-6.814-6.814" transform="translate(-671.682 -576.912)" fill="currentColor"/>
+  </g>
+</svg>

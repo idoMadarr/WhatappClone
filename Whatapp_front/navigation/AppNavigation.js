@@ -17,6 +17,7 @@ import {logout} from '../redux/actions';
 
 // Components
 import AuthHeader from '../components/AppHader/AuthHeader';
+import ChatHeader from '../components/AppHader/ChatHeader';
 import SigninScreen from '../screens/SigninScreen';
 import SignupScreen from '../screens/SignupScreen';
 import VerificationScreen from '../screens/VerificationScreen';
@@ -88,7 +89,11 @@ const AppNavigation = () => {
               header: () => <AppHeader />,
             }}>
             <AppNavigator.Screen name={'main'} component={TopTabNavigation} />
-            <AppNavigator.Screen name={'chat-screen'} component={ChatScreen} />
+            <AppNavigator.Screen
+              name={'chat-screen'}
+              component={ChatScreen}
+              options={{header: () => <ChatHeader />}}
+            />
           </AppNavigator.Group>
         ) : (
           <AppNavigator.Group
