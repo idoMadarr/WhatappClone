@@ -40,7 +40,7 @@ mongoose
     io.on('connection', socket => {
       const clientId = socket.id;
       app.set('socket', socket);
-      socket.emit('init', { clientId });
+      socket.broadcast.emit('init', { clientId });
 
       socket.on('message', ({ message, recipient }) => {
         socket.to(recipient).emit('received_message', message);

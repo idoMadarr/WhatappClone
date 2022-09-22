@@ -52,7 +52,13 @@ const AppNavigation = () => {
         setStorage('clientId', data.clientId);
       });
       socketConnection.on('user', data => {
-        dispatch(setActiveClients(data));
+        console.log(clientId, data.clientId);
+        if (clientId === data.clientId) {
+          console.log('me');
+        } else {
+          console.log('not me');
+        }
+        // clientId === data.clientId ? null : dispatch(setActiveClients(data));
       });
       socketConnection.on('logout', data => {
         dispatch(clearActiveClient(data));

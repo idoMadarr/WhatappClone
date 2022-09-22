@@ -31,7 +31,6 @@ export const mainSlice = createSlice({
       state.message = null;
     },
     setActiveClients: (state, action) => {
-      console.log(action.payload);
       const userSocket = {
         email: action.payload.email,
         clientId: action.payload.clientId,

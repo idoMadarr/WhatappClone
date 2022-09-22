@@ -75,21 +75,21 @@ exports.signIn = async (req, res, _next) => {
     return res.status(401).json(activationMessage);
   }
 
-  const userOnline = await OnlineModule.findOne({ email });
+  // const userOnline = await OnlineModule.findOne({ email });
 
-  if (userOnline) {
-    console.log(userOnline, 'userOnline');
-    // await OnlineModule.findOneAndUpdate(
-    //   { clientId: userOnline.clientId },
-    //   { clientId: clientId }
-    // );
-    await socket.broadcast
-      .to(userOnline.clientId)
-      .emit('session_timeout', email);
-  } else {
-    const setActive = await OnlineModule({ email, clientId, online: true });
-    await setActive.save();
-  }
+  // if (userOnline) {
+  //   console.log(userOnline, 'userOnline');
+  //   // await OnlineModule.findOneAndUpdate(
+  //   //   { clientId: userOnline.clientId },
+  //   //   { clientId: clientId }
+  //   // );
+  //   await socket.broadcast
+  //     .to(userOnline.clientId)
+  //     .emit('session_timeout', email);
+  // } else {
+  //   const setActive = await OnlineModule({ email, clientId, online: true });
+  //   await setActive.save();
+  // }
 
   const identifier = { id: userExist._id };
   jwt.sign(identifier, process.env.SECERT, async (_error, token) => {
@@ -107,6 +107,8 @@ exports.signIn = async (req, res, _next) => {
 exports.autoSignIn = async (req, res, next) => {
   const { token, username, email, clientId } = req.body;
   // console.log(clientId);
+  const socket = req.app.get('socket');
+
   await OnlineModule.findOneAndUpdate(
     { email },
     { email, clientId, online: true }
@@ -118,7 +120,7 @@ exports.autoSignIn = async (req, res, next) => {
   // console.log('here');
   // }
 
-  getIO().emit('user', {
+  await socket.broadcast.emit('user', {
     email,
     clientId,
     message: `${email} has logged in`,
